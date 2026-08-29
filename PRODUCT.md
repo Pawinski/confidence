@@ -1,4 +1,4 @@
-# Confdence
+# Confidence
 
 Working name for the Quebec patient-owned health record.
 
@@ -34,7 +34,7 @@ So you get your blood typed again. And again.
 
 Your record, on a device, no server required:
 
-1. Open `confdence.html` (or `static/index.html` from the folder)
+1. Open `confidence.html` (or `static/index.html` from the folder)
 2. Name is Alexander Pawinski. Blood type, allergies, meds start empty — do not invent them
 3. Edit the facts — blood type, allergies, meds, hospitals, clinicians. They stay in this browser
 4. **Montrer à un médecin** — hold the phone out
@@ -60,7 +60,7 @@ The optional FastAPI share-link path still exists. It is not how you show a doct
 
 Off by default. The in-app toggle does not flip on a single click — every risk must be checked.
 
-The GitHub Pages app cannot hand the live browser record to an agent. After a password, an unlock, and consent, it downloads `confdence-agent-pack.json`. Install that pack on the Mac, unlock (`python3 mcp_auth.py unlock`), then point Grok at `mcp_server.py`. The process exits before handshake if you are locked, consent is off, or the agent does not present `CONFDENCE_AGENT_TOKEN`. That token is minted by you, shown once, and is not your password. Revoke it and the agent is out.
+The GitHub Pages app cannot hand the live browser record to an agent. After a password, an unlock, and consent, it downloads `confidence-agent-pack.json`. Install that pack on the Mac, unlock (`python3 mcp_auth.py unlock`), then point Grok at `mcp_server.py`. The process exits before handshake if you are locked, consent is off, or the agent does not present `CONFIDENCE_AGENT_TOKEN`. That token is minted by you, shown once, and is not your password. Revoke it and the agent is out.
 
 ## Open readings
 

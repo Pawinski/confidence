@@ -1,4 +1,4 @@
-# Agent instructions — Confdence
+# Agent instructions — Confidence
 
 Read [PRODUCT.md](PRODUCT.md) before writing code.
 

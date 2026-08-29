@@ -497,12 +497,12 @@
 
   function mcpSnippet() {
     return [
-      "[mcp_servers.confdence]",
+      "[mcp_servers.confidence]",
       'command = "/Users/apawinski/dev/health/.venv/bin/python"',
       'args = ["/Users/apawinski/dev/health/mcp_server.py"]',
       "",
-      "[mcp_servers.confdence.env]",
-      'CONFDENCE_AGENT_TOKEN = "${CONFDENCE_AGENT_TOKEN}"',
+      "[mcp_servers.confidence.env]",
+      'CONFIDENCE_AGENT_TOKEN = "${CONFIDENCE_AGENT_TOKEN}"',
       "",
       t("mcpInstallHelp"),
     ].join("\n");
@@ -551,7 +551,7 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "confdence-agent-pack.json";
+    a.download = "confidence-agent-pack.json";
     a.click();
     URL.revokeObjectURL(url);
     toast(t("mcpPackSaved"));

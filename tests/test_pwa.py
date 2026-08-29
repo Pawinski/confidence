@@ -8,7 +8,7 @@ def test_manifest_is_standalone_shell() -> None:
     manifest = (STATIC / "manifest.json").read_text(encoding="utf-8")
     assert '"display": "standalone"' in manifest
     assert '"start_url": "./"' in manifest
-    assert "Confdence" in manifest
+    assert "Confidence" in manifest
     assert "icon-192.png" in manifest
 
 
@@ -39,7 +39,7 @@ def test_airdrop_build_strips_pwa_links(tmp_path: Path, monkeypatch) -> None:
     assert spec and spec.loader
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    out = tmp_path / "confdence.html"
+    out = tmp_path / "confidence.html"
     monkeypatch.setattr(mod, "OUT", out)
     mod.main()
     html = out.read_text(encoding="utf-8")
