@@ -70,7 +70,7 @@ def is_enabled(data: dict[str, Any] | None = None) -> bool:
 def require() -> None:
     if not is_enabled():
         raise ConsentOff(
-            "MCP is off. Turn it on in Confdence and accept every risk, "
+            "MCP is off. Turn it on in Confidence and accept every risk, "
             "then install the agent pack."
         )
 
@@ -156,7 +156,7 @@ def install_pack(path: Path) -> dict[str, Any]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Confdence MCP consent")
+    parser = argparse.ArgumentParser(description="Confidence MCP consent")
     sub = parser.add_subparsers(dest="cmd", required=True)
     sub.add_parser("status")
     sub.add_parser("disable")

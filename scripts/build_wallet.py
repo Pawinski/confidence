@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 STATIC = ROOT / "static"
-OUT = ROOT / "confdence.html"
+OUT = ROOT / "confidence.html"
 
 
 def main() -> None:

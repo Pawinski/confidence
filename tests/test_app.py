@@ -42,7 +42,7 @@ def test_home_is_offline_wallet(tmp_path: Path) -> None:
     client = _client(tmp_path)
     res = client.get("/")
     assert res.status_code == 200
-    assert "Confdence" in res.text
+    assert "Confidence" in res.text
     assert "Camille" not in res.text
     assert "Ouvrir le dossier démo" not in res.text
 

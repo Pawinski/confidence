@@ -39,7 +39,7 @@ def test_sms_href_shape() -> None:
         return "sms:" + quote(d, safe="") + "?&body=" + quote(body, safe="")
 
     assert sms_href("not-a-phone", "x") is None
-    href = sms_href("+1 (514) 555-0142", "Confdence SEV2 — reaction")
+    href = sms_href("+1 (514) 555-0142", "Confidence SEV2 — reaction")
     assert href is not None
     assert href.startswith("sms:")
     parsed = urlparse(href.replace("?&", "?", 1))

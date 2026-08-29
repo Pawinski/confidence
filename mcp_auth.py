@@ -281,14 +281,14 @@ def verify_agent_token(token: str | None) -> bool:
 
 
 def presented_agent_token() -> str | None:
-    return os.environ.get("CONFDENCE_AGENT_TOKEN")
+    return os.environ.get("CONFIDENCE_AGENT_TOKEN") or os.environ.get("CONFDENCE_AGENT_TOKEN")
 
 
 def require_agent() -> None:
     if not has_agent_token():
         raise AuthRequired("mint an agent token first")
     if not verify_agent_token(presented_agent_token()):
-        raise AuthRequired("agent must present CONFDENCE_AGENT_TOKEN")
+        raise AuthRequired("agent must present CONFIDENCE_AGENT_TOKEN")
 
 
 def agent_state() -> str:
@@ -300,7 +300,7 @@ def agent_state() -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Confdence MCP auth")
+    parser = argparse.ArgumentParser(description="Confidence MCP auth")
     sub = parser.add_subparsers(dest="cmd", required=True)
     sub.add_parser("status")
     sub.add_parser("set")

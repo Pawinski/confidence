@@ -1,4 +1,4 @@
-"""Confdence — patient-owned Quebec health record. Local dogfood."""
+"""Confidence — patient-owned Quebec health record. Local dogfood."""
 
 from __future__ import annotations
 
@@ -57,7 +57,7 @@ TESTING = os.environ.get("HEALTH_TESTING", "0") == "1"
 store = Store(Path(os.environ.get("HEALTH_DB", DATA_DIR / "health.db")))
 store.seed_demo_if_empty()
 
-app = FastAPI(title="Confdence", docs_url=None, redoc_url=None)
+app = FastAPI(title="Confidence", docs_url=None, redoc_url=None)
 app.mount("/static", StaticFiles(directory=ROOT / "static"), name="static")
 templates = Jinja2Templates(directory=str(ROOT / "templates"))
 
@@ -171,7 +171,7 @@ def healthz() -> dict[str, str]:
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request) -> HTMLResponse:
-    html = (ROOT / "confdence.html").read_text(encoding="utf-8")
+    html = (ROOT / "confidence.html").read_text(encoding="utf-8")
     response = HTMLResponse(html)
     if not request.cookies.get(CSRF_COOKIE):
         _set_csrf(response)
