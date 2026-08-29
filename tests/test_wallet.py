@@ -41,7 +41,7 @@ def test_card_escapes_html() -> None:
 
 def test_build_wallet_inlines_assets(tmp_path: Path, monkeypatch) -> None:
     mod = _load_builder()
-    out = tmp_path / "confdence.html"
+    out = tmp_path / "confidence.html"
     monkeypatch.setattr(mod, "OUT", out)
     mod.main()
     html = out.read_text(encoding="utf-8")
