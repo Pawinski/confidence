@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Confdence MCP server. Will not start until the holder is unlocked and has consented."""
+"""Confidence MCP server. Will not start until the holder is unlocked and has consented."""
 
 from __future__ import annotations
 
@@ -13,20 +13,20 @@ def _refuse() -> int:
     state = connect_state()
     if state != "unlocked":
         sys.stderr.write(
-            "Confdence MCP: holder must authenticate first "
+            "Confidence MCP: holder must authenticate first "
             f"({state}). python3 mcp_auth.py unlock\n"
         )
         return 1
     if not is_enabled():
         sys.stderr.write(
-            "Confdence MCP: consent is off. Enable it in the app, then install the pack.\n"
+            "Confidence MCP: consent is off. Enable it in the app, then install the pack.\n"
         )
         return 1
     agent = agent_state()
     if agent != "ok":
         sys.stderr.write(
-            "Confdence MCP: agent must authenticate "
-            f"({agent}). Mint a token and set CONFDENCE_AGENT_TOKEN.\n"
+            "Confidence MCP: agent must authenticate "
+            f"({agent}). Mint a token and set CONFIDENCE_AGENT_TOKEN.\n"
         )
         return 1
     return 0
@@ -39,7 +39,7 @@ def _run() -> None:
     from mcp_consent import ConsentOff
     from mcp_tools import call, dump
 
-    mcp = FastMCP("confdence")
+    mcp = FastMCP("confidence")
 
     def _tool(name: str, **kwargs: object) -> str:
         try:
@@ -53,7 +53,7 @@ def _run() -> None:
 
     @mcp.tool()
     def mcp_status() -> str:
-        """Whether the user has authenticated and turned Confdence MCP on."""
+        """Whether the user has authenticated and turned Confidence MCP on."""
         return _tool("mcp_status")
 
     @mcp.tool()

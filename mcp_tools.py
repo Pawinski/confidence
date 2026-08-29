@@ -178,7 +178,7 @@ def call(name: str, arguments: dict[str, Any] | None = None) -> Any:
     require_agent()
     if not is_enabled():
         raise ConsentOff(
-            "MCP is off. The user must enable it in Confdence and accept every risk."
+            "MCP is off. The user must enable it in Confidence and accept every risk."
         )
     if name == "get_record":
         return get_record()

@@ -84,7 +84,7 @@ window.ConfdenceCard = (() => {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Confdence</title>
+<title>Confidence</title>
 <style>
   :root { --bg:#f3efe6; --ink:#1b1814; --muted:#5c564c; --line:#d4cdc0; --card:#fffaf1; --blood:#8f1d1d; --warn:#6b3a1f; --font:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; --ui:"Avenir Next","Segoe UI",system-ui,sans-serif; }
   * { box-sizing: border-box; }
@@ -110,7 +110,7 @@ window.ConfdenceCard = (() => {
 </head>
 <body>
   <article class="sheet">
-    <p class="kicker">Confdence</p>
+    <p class="kicker">Confidence</p>
     <p class="name">${escapeHtml(r.display_name || "")}</p>
     <p class="eyebrow">${escapeHtml(copy.bloodType)}</p>
     <p class="blood">${escapeHtml(r.blood_type || "—")}</p>
@@ -135,7 +135,7 @@ window.ConfdenceCard = (() => {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "");
-    return "confdence-" + (slug || "card") + ".html";
+    return "confidence-" + (slug || "card") + ".html";
   }
 
   async function shareOrDownload(record, copy) {
@@ -143,7 +143,7 @@ window.ConfdenceCard = (() => {
     const name = filename(record);
     const file = new File([html], name, { type: "text/html" });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({ files: [file], title: "Confdence" });
+      await navigator.share({ files: [file], title: "Confidence" });
       return "shared";
     }
     const url = URL.createObjectURL(new Blob([html], { type: "text/html" }));

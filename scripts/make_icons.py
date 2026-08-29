@@ -1,4 +1,4 @@
-"""Draw Confdence home-screen icons with Palatino on paper."""
+"""Draw Confidence home-screen icons with Palatino on paper."""
 
 from __future__ import annotations
 
