@@ -2,6 +2,10 @@
 
 Read [PRODUCT.md](PRODUCT.md) before writing code.
 
+## UI Evidence Rule
+
+UI pull requests: every PR that changes user-visible UI MUST attach before/after screenshots (or a short screen recording) sufficient for manual verify. No merge without them. Non-UI PRs are exempt; PR description must state `UI: none`. Review may flag missing shots; hard-veto UI merge without evidence.
+
 ## Boundaries
 
 - This folder only. Do not merge with Welcome.
