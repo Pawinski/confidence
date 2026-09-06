@@ -117,3 +117,7 @@ This folder is tracked by git (via `.gitkeep`) but individual reviews may be git
 2. **Customization**: Wrappers adapt behavior without forking kernels
 3. **Consistency**: Same review structure, project-specific surfaces
 4. **Separation**: Generic contracts vs domain-specific constraints
+
+## UI Evidence Rule
+
+UI pull requests: every PR that changes user-visible UI MUST attach before/after screenshots (or a short screen recording) sufficient for manual verify. No merge without them. Non-UI PRs are exempt; PR description must state `UI: none`. Review may flag missing shots; hard-veto UI merge without evidence.
