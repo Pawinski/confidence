@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "_comment": "Confidence adapter selections. Runtime target for /expert-review.",
+  "verbs": {
+    "review": {
+      "wrapper": "expert-review",
+      "skill": ".grok/skills/expert-review",
+      "kernel": ".grok/skills/review"
+    },
+    "ship": {
+      "wrapper": "confidence-ship",
+      "skill": ".grok/skills/confidence-ship",
+      "kernel": ".grok/skills/ship"
+    },
+    "incident": {
+      "wrapper": "confidence-incident",
+      "skill": ".grok/skills/confidence-incident",
+      "kernel": ".grok/skills/incident"
+    },
+    "tidy": {
+      "wrapper": "confidence-tidy",
+      "skill": ".grok/skills/confidence-tidy",
+      "kernel": ".grok/skills/tidy"
+    }
+  },
+  "flags": {
+    "default": ["software-architect", "security-engineer", "product-manager"],
+    "platform": ["platform-architect", "security-engineer", "software-architect"]
+  },
+  "catalog": [
+    "software-architect",
+    "security-engineer",
+    "product-manager",
+    "platform-architect"
+  ],
+  "custom": [],
+  "personas_dir": "agent/personas",
+  "review_artifact": "reviews/expert-review-*.md",
+  "context": ["PRODUCT.md", "agent/context.md"],
+  "review_surfaces": [
+    "law-5-25-ownership",
+    "blood-type-honesty-ux",
+    "french-first-copy",
+    "doctor-handoff",
+    "incident-declare",
+    "mcp-consent-gate",
+    "welcome-boundary"
+  ]
+}
