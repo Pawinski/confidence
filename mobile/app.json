@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "Confidence",
+    "slug": "confidence",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#f3efe6"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.confidence.wallet"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#f3efe6"
+      },
+      "package": "com.confidence.wallet"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "locales": {
+      "fr": "./locales/fr.json",
+      "en": "./locales/en.json"
+    },
+    "plugins": [
+      "expo-localization"
+    ]
+  }
+}
