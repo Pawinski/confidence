@@ -1,0 +1,19 @@
+{
+  "kernel_verbs": {
+    "review": "expert-review",
+    "ship": "confidence-ship",
+    "incident": "confidence-incident",
+    "tidy": "confidence-tidy"
+  },
+  "slash": { "review": "/expert-review" },
+  "flags": {
+    "default": ["software-architect", "security-engineer", "product-manager"],
+    "platform": ["platform-architect", "security-engineer", "software-architect"]
+  },
+  "catalog_roles_used": ["software-architect", "security-engineer", "product-manager", "platform-architect"],
+  "custom_personas": [],
+  "personas_dir": "agent/personas",
+  "review_artifact": "reviews/expert-review-*.md",
+  "context": ["PRODUCT.md", "agent/context.md"],
+  "review_surfaces": ["law-5-25-ownership", "blood-type-honesty-ux", "french-first-copy", "doctor-handoff", "incident-declare", "mcp-consent-gate", "welcome-boundary"]
+}
