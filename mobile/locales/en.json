@@ -1,0 +1,5 @@
+{
+  "CFBundleDisplayName": "Confidence",
+  "NSCameraUsageDescription": "This app does not use the camera.",
+  "NSPhotoLibraryUsageDescription": "This app does not access your photos."
+}
