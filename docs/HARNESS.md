@@ -64,7 +64,7 @@ Runtime configuration lives in `agent/harness-select.json`:
 
 ```json
 {
-  "verbs": {
+  "kernel_verbs": {
     "review": {
       "wrapper": "expert-review",
       "skill": ".grok/skills/expert-review",
