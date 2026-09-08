@@ -1,7 +1,7 @@
 {
   "version": 1,
   "_comment": "Confidence adapter selections. Runtime target for /expert-review.",
-  "verbs": {
+  "kernel_verbs": {
     "review": {
       "wrapper": "expert-review",
       "skill": ".grok/skills/expert-review",
