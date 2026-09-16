@@ -13,7 +13,7 @@ UI pull requests: every PR that changes user-visible UI MUST attach before/after
 
 ## Personas
 
-Need a designer / architect / etc.: `/Users/apawinski/dev/.grok/personas/_roster.md` then the matching file.
+Need a designer / architect / etc.: see the personas roster, then the matching file.
 
 ## Harness (Kernel + Adapter)
 

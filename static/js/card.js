@@ -1,4 +1,4 @@
-window.ConfdenceCard = (() => {
+window.ConfidenceCard = (() => {
   function escapeHtml(value) {
     return String(value == null ? "" : value)
       .replace(/&/g, "&amp;")

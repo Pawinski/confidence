@@ -1,5 +1,5 @@
-window.ConfdenceIncidents = (() => {
-  const KEY = "confdence.incidents.v1";
+window.ConfidenceIncidents = (() => {
+  const KEY = "confidence.incidents.v1";
   const SEVERITIES = ["sev1", "sev2", "sev3", "sev4"];
   const STATUSES = ["active", "monitoring", "resolved"];
   const EVENT_KINDS = ["declared", "note", "step", "status", "notified", "commander"];

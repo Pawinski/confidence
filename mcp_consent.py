@@ -24,8 +24,8 @@ class ConsentOff(Exception):
 
 
 def home() -> Path:
-    raw = os.environ.get("CONFDENCE_HOME")
-    return Path(raw).expanduser() if raw else Path.home() / ".confdence"
+    raw = os.environ.get("CONFIDENCE_HOME")
+    return Path(raw).expanduser() if raw else Path.home() / ".confidence"
 
 
 def consent_path() -> Path:
