@@ -22,7 +22,7 @@ MIN_PASSWORD = 10
 SESSION_TTL = timedelta(hours=12)
 LOCKOUT_AFTER = 5
 LOCKOUT_MINUTES = 15
-AUTH_COOKIE = "confdence_auth"
+AUTH_COOKIE = "confidence_auth"
 
 
 class AuthRequired(Exception):
@@ -281,7 +281,7 @@ def verify_agent_token(token: str | None) -> bool:
 
 
 def presented_agent_token() -> str | None:
-    return os.environ.get("CONFIDENCE_AGENT_TOKEN") or os.environ.get("CONFDENCE_AGENT_TOKEN")
+    return os.environ.get("CONFIDENCE_AGENT_TOKEN")
 
 
 def require_agent() -> None:

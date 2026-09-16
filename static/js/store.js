@@ -1,5 +1,5 @@
-window.ConfdenceStore = (() => {
-  const KEY = "confdence.record.v1";
+window.ConfidenceStore = (() => {
+  const KEY = "confidence.record.v1";
   const DEFAULT = {
     display_name: "Alexander Pawinski",
     preferred_lang: "fr",

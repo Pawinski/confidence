@@ -1,6 +1,6 @@
-window.ConfdenceAuth = (() => {
-  const VERIFIER_KEY = "confdence.auth.v1";
-  const SESSION_KEY = "confdence.auth.session";
+window.ConfidenceAuth = (() => {
+  const VERIFIER_KEY = "confidence.auth.v1";
+  const SESSION_KEY = "confidence.auth.session";
   const ITERS = 210000;
   const MIN = 10;
 

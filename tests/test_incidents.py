@@ -52,4 +52,4 @@ def test_wallet_wires_incidents() -> None:
     app = (ROOT / "static" / "js" / "app.js").read_text(encoding="utf-8")
     assert 'src="js/incidents.js"' in html
     assert "declare-btn" in html
-    assert "ConfdenceIncidents" in app
+    assert "ConfidenceIncidents" in app
