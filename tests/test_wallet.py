@@ -46,8 +46,8 @@ def test_build_wallet_inlines_assets(tmp_path: Path, monkeypatch) -> None:
     mod.main()
     html = out.read_text(encoding="utf-8")
     assert "<style>" in html
-    assert "ConfdenceStore" in html
-    assert "ConfdenceIncidents" in html
+    assert "ConfidenceStore" in html
+    assert "ConfidenceIncidents" in html
     assert 'href="css/app.css"' not in html
     assert 'src="js/app.js"' not in html
     assert "@media print" in html

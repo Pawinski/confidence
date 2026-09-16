@@ -1,5 +1,5 @@
-window.ConfdenceMcp = (() => {
-  const KEY = "confdence.mcp.v1";
+window.ConfidenceMcp = (() => {
+  const KEY = "confidence.mcp.v1";
   const VERSION = "2026-08-18";
   const REQUIRED = [
     "agents_read",
@@ -57,7 +57,7 @@ window.ConfdenceMcp = (() => {
     return row;
   }
 
-  const AGENT_KEY = "confdence.agent.v1";
+  const AGENT_KEY = "confidence.agent.v1";
 
   function agentMeta() {
     try {

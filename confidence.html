@@ -953,8 +953,8 @@ window.HEALTH_COPY = {
   },
 };
 
-window.ConfdenceStore = (() => {
-  const KEY = "confdence.record.v1";
+window.ConfidenceStore = (() => {
+  const KEY = "confidence.record.v1";
   const DEFAULT = {
     display_name: "Alexander Pawinski",
     preferred_lang: "fr",
@@ -1002,8 +1002,8 @@ window.ConfdenceStore = (() => {
   return { KEY, DEFAULT, normalize, load, save };
 })();
 
-window.ConfdenceIncidents = (() => {
-  const KEY = "confdence.incidents.v1";
+window.ConfidenceIncidents = (() => {
+  const KEY = "confidence.incidents.v1";
   const SEVERITIES = ["sev1", "sev2", "sev3", "sev4"];
   const STATUSES = ["active", "monitoring", "resolved"];
   const EVENT_KINDS = ["declared", "note", "step", "status", "notified", "commander"];
@@ -1198,9 +1198,9 @@ window.ConfdenceIncidents = (() => {
   };
 })();
 
-window.ConfdenceAuth = (() => {
-  const VERIFIER_KEY = "confdence.auth.v1";
-  const SESSION_KEY = "confdence.auth.session";
+window.ConfidenceAuth = (() => {
+  const VERIFIER_KEY = "confidence.auth.v1";
+  const SESSION_KEY = "confidence.auth.session";
   const ITERS = 210000;
   const MIN = 10;
 
@@ -1300,8 +1300,8 @@ window.ConfdenceAuth = (() => {
   };
 })();
 
-window.ConfdenceMcp = (() => {
-  const KEY = "confdence.mcp.v1";
+window.ConfidenceMcp = (() => {
+  const KEY = "confidence.mcp.v1";
   const VERSION = "2026-08-18";
   const REQUIRED = [
     "agents_read",
@@ -1359,7 +1359,7 @@ window.ConfdenceMcp = (() => {
     return row;
   }
 
-  const AGENT_KEY = "confdence.agent.v1";
+  const AGENT_KEY = "confidence.agent.v1";
 
   function agentMeta() {
     try {
@@ -1424,7 +1424,7 @@ window.ConfdenceMcp = (() => {
   };
 })();
 
-window.ConfdenceCard = (() => {
+window.ConfidenceCard = (() => {
   function escapeHtml(value) {
     return String(value == null ? "" : value)
       .replace(/&/g, "&amp;")
@@ -1586,11 +1586,11 @@ window.ConfdenceCard = (() => {
 
 (() => {
   const COPY = window.HEALTH_COPY;
-  const store = window.ConfdenceStore;
-  const card = window.ConfdenceCard;
-  const incidents = window.ConfdenceIncidents;
-  const mcpGate = window.ConfdenceMcp;
-  const auth = window.ConfdenceAuth;
+  const store = window.ConfidenceStore;
+  const card = window.ConfidenceCard;
+  const incidents = window.ConfidenceIncidents;
+  const mcpGate = window.ConfidenceMcp;
+  const auth = window.ConfidenceAuth;
   const state = {
     lang: localStorage.getItem("health.lang") || "fr",
     record: store.load(),
@@ -2084,8 +2084,8 @@ window.ConfdenceCard = (() => {
   function mcpSnippet() {
     return [
       "[mcp_servers.confidence]",
-      'command = "/Users/apawinski/dev/health/.venv/bin/python"',
-      'args = ["/Users/apawinski/dev/health/mcp_server.py"]',
+      'command = ".venv/bin/python"',
+      'args = ["mcp_server.py"]',
       "",
       "[mcp_servers.confidence.env]",
       'CONFIDENCE_AGENT_TOKEN = "${CONFIDENCE_AGENT_TOKEN}"',

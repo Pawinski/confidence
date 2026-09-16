@@ -69,7 +69,7 @@ The following checklists are applied during review:
 - Locked state blocks handshake.
 
 ### welcome-boundary
-- Do not merge with Welcome (`/Users/apawinski/dev/welcome`).
+- Do not merge with Welcome (separate app).
 - Maternity/birthing is a separate app.
 - No shared state, no shared deployment.
 
