@@ -28,7 +28,7 @@ So you get your blood typed again. And again.
 - Not a replacement for DSQ or Carnet Santé
 - Not a hospital chart
 - Not a transfusion authority. A hospital will still type-and-screen before giving blood. That is correct practice. The app is for every other door that currently shrugs.
-- Not a maternity / birthing product. Separate app at `/Users/apawinski/dev/welcome`. Do not merge them.
+- Not a maternity / birthing product. Separate app (Welcome). Do not merge them.
 
 ## First slice (what is in this folder)
 

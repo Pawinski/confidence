@@ -1,10 +1,10 @@
 (() => {
   const COPY = window.HEALTH_COPY;
-  const store = window.ConfdenceStore;
-  const card = window.ConfdenceCard;
-  const incidents = window.ConfdenceIncidents;
-  const mcpGate = window.ConfdenceMcp;
-  const auth = window.ConfdenceAuth;
+  const store = window.ConfidenceStore;
+  const card = window.ConfidenceCard;
+  const incidents = window.ConfidenceIncidents;
+  const mcpGate = window.ConfidenceMcp;
+  const auth = window.ConfidenceAuth;
   const state = {
     lang: localStorage.getItem("health.lang") || "fr",
     record: store.load(),
@@ -498,8 +498,8 @@
   function mcpSnippet() {
     return [
       "[mcp_servers.confidence]",
-      'command = "/Users/apawinski/dev/health/.venv/bin/python"',
-      'args = ["/Users/apawinski/dev/health/mcp_server.py"]',
+      'command = ".venv/bin/python"',
+      'args = ["mcp_server.py"]',
       "",
       "[mcp_servers.confidence.env]",
       'CONFIDENCE_AGENT_TOKEN = "${CONFIDENCE_AGENT_TOKEN}"',

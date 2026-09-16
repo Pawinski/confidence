@@ -5,7 +5,7 @@ Patient-owned record for Quebec. See [PRODUCT.md](PRODUCT.md).
 ## Local (file)
 
 ```sh
-open /Users/apawinski/dev/health/confidence.html
+open confidence.html
 ```
 
 Rebuild after changing `static/`:
@@ -36,21 +36,20 @@ Off until you set a password, unlock, and consent (every risk checked). Then:
 6. Mint an agent token in the app (or `python3 mcp_auth.py mint`) and export it:
 
 ```sh
-export CONFDENCE_AGENT_TOKEN='…paste once…'
+export CONFIDENCE_AGENT_TOKEN='…paste once…'
 ```
 
 7. Add to `~/.grok/config.toml` or this repo’s `.grok/config.toml`:
 
 ```toml
 [mcp_servers.confidence]
-command = "/Users/apawinski/dev/health/.venv/bin/python"
-args = ["/Users/apawinski/dev/health/mcp_server.py"]
+command = ".venv/bin/python"
+args = ["mcp_server.py"]
 
 [mcp_servers.confidence.env]
 CONFIDENCE_AGENT_TOKEN = "${CONFIDENCE_AGENT_TOKEN}"
 ```
 
-> **Migration note:** If you had `CONFDENCE_AGENT_TOKEN` set, rename the env var to `CONFIDENCE_AGENT_TOKEN`. The server accepts either name during transition.
 
 `python3 mcp_consent.py disable` turns the server back into a brick.
 
