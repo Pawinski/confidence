@@ -1,0 +1,67 @@
+name: General Issue
+description: Report a bug, request a feature, or raise a concern.
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for opening an issue. Please complete all required sections.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What is this issue about?
+      placeholder: Describe the bug, feature request, or concern.
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: |
+        Real numbers: who is affected, how many users/patients, what measurably changes.
+        Use measured data or cite the source — no vibes.
+      placeholder: |
+        Example: Affects ~200 daily active users; reduces repeated blood-type entry by X%.
+    validations:
+      required: true
+
+  - type: textarea
+    id: value
+    attributes:
+      label: Value
+      description: |
+        Dollar estimate with inputs, formula, and labelled assumptions.
+      placeholder: |
+        Inputs: ...
+        Formula: ...
+        Assumptions:
+          A1: ...
+          A2: ...
+        Estimate $: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: cost
+    attributes:
+      label: Cost
+      description: |
+        Build hours, tokens (agent/model usage), and risk level.
+      placeholder: |
+        Build hours: ...
+        Tokens: ...
+        Risk: Low / Medium / High — rationale
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other information, logs, screenshots, or references.
+      placeholder: Optional
+    validations:
+      required: false
