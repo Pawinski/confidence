@@ -23,7 +23,8 @@ These names stay as they are:
 - `index` entry files.
 - Icon file names that carry a pixel size (for example `icon-192.png`).
 - The `src/` and `docs/` folder names.
+- The words `id`, `mcp`, and `config` may appear in names. Every other acronym or abbreviation is spelled out when the code is touched.
 
 ## Existing code
 
-Old names are renamed when someone works in that area, in a separate rename PR. No big-bang renames. Known names to change when touched: `mcp_*` modules and `static/js/mcp.js`, `tests/test_mcp.py`, `tests/test_pwa.py`, `mobile/src/i18n/`, `static/css/`, `static/js/`, `static/sw.js`, `auth` (`mcp_auth.py`, `static/js/auth.js`), and `mobile/App.tsx`.
+Old names are renamed when someone works in that area, in a separate rename PR. No big-bang renames. Known names to change when touched: `tests/test_pwa.py`, `mobile/src/i18n/`, `static/css/`, `static/js/`, `static/sw.js`, `auth` (`mcp_auth.py` becomes `mcp_authentication.py`; `static/js/auth.js`), and `mobile/App.tsx`.
