@@ -1,6 +1,7 @@
 # Agent instructions — Confidence
 
 Read [PRODUCT.md](PRODUCT.md) before writing code.
+Read [docs/PROGRAM_DESIGN.md](docs/PROGRAM_DESIGN.md) for file layout and naming rules.
 
 ## UI Evidence Rule
 
