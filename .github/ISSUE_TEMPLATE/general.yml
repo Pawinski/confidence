@@ -8,6 +8,28 @@ body:
         Thank you for opening an issue. Please complete all required sections.
 
   - type: textarea
+    id: tldr
+    attributes:
+      label: TL;DR
+      description: |
+        2–3 plain sentences: what's wrong, how bad it is, and what happens next.
+      placeholder: |
+        What's wrong: ...
+        How bad: ...
+        What happens next: ...
+    validations:
+      required: true
+
+  - type: input
+    id: filed_by
+    attributes:
+      label: Filed by
+      description: Who filed this, the date and time in PT, and what they were doing when they found it.
+      placeholder: "<agent or person>, YYYY-MM-DD HH:MM PT, while <what you were doing>"
+    validations:
+      required: true
+
+  - type: textarea
     id: description
     attributes:
       label: Description
