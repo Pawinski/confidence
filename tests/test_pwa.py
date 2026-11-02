@@ -49,3 +49,12 @@ def test_airdrop_build_strips_pwa_links(tmp_path: Path, monkeypatch) -> None:
     html = out.read_text(encoding="utf-8")
     assert "manifest.json" not in html
     assert "serviceWorker" in html
+
+
+def test_doctor_card_buttons_do_not_cover_sections() -> None:
+    css = (STATIC / "css" / "app.css").read_text(encoding="utf-8")
+    actions = css.split(".hold-actions {", 1)[1].split("}", 1)[0]
+    sheet = css.split(".hold-sheet {", 1)[1].split("}", 1)[0]
+    assert "position: sticky" not in actions
+    assert "position: static" in actions
+    assert "overflow: auto" in sheet
