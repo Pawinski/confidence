@@ -23,9 +23,13 @@ def test_service_worker_is_shell_only() -> None:
 
 def test_index_registers_pwa() -> None:
     html = (STATIC / "index.html").read_text(encoding="utf-8")
+    css = (STATIC / "css" / "app.css").read_text(encoding="utf-8")
     app = (STATIC / "js" / "app.js").read_text(encoding="utf-8")
     assert 'rel="manifest"' in html
     assert "apple-touch-icon" in html
+    assert 'name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"' in html
+    assert 'name="apple-mobile-web-app-status-bar-style" content="black-translucent"' in html
+    assert "max(12px, env(safe-area-inset-top))" in css
     assert "serviceWorker" in app
     assert 'register("sw.js")' in app
     assert "https:" in app
