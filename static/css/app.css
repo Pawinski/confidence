@@ -29,7 +29,7 @@ html, body {
 .shell {
   max-width: 44rem;
   margin: 0 auto;
-  padding: 1.25rem 1.25rem 4rem;
+  padding: max(12px, env(safe-area-inset-top)) 1.25rem 4rem;
 }
 
 .top {
@@ -184,6 +184,13 @@ h2 {
   width: min(36rem, calc(100vw - 1.5rem));
   padding: 1.25rem;
   border: 1px solid var(--line);
+  /* Center inside the safe area. Equal 12px offsets when the inset is 0, so a browser dialog stays centered. */
+  top: max(12px, env(safe-area-inset-top));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  height: fit-content;
+  max-height: calc(100vh - max(12px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom)));
+  margin-block: auto;
+  overflow: auto;
 }
 
 .dialog::backdrop { background: rgb(27 24 20 / 0.35); }
@@ -331,7 +338,7 @@ input, select, textarea {
 
 .hold {
   min-height: 100vh;
-  padding: 1.25rem 1.25rem 6rem;
+  padding: max(1.25rem, env(safe-area-inset-top)) 1.25rem 6rem;
 }
 
 .hold-sheet {
