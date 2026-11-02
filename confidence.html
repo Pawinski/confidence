@@ -387,6 +387,17 @@ input, select, textarea {
   }
 }
 
+.allergen-flags:empty { display: none; }
+.allergen-flag {
+  display: inline-block;
+  margin: 0.5rem 0 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #fbe8c8;
+  color: #6b3d00;
+  font-size: 0.85rem;
+}
+
 </style>
 </head>
 <body>
@@ -420,6 +431,7 @@ input, select, textarea {
         <article class="panel" aria-labelledby="all-label">
           <h2 id="all-label" data-i18n="allergies">Allergies</h2>
           <ul id="allergies" class="list"></ul>
+          <div id="allergen-flags" class="allergen-flags"></div>
         </article>
         <article class="panel" aria-labelledby="med-label">
           <h2 id="med-label" data-i18n="medications">Médicaments</h2>
@@ -703,6 +715,7 @@ window.HEALTH_COPY = {
     hospitalsEdit: "Hôpitaux (nom | ville | note)",
     professionalsEdit: "Professionnels (nom | rôle | téléphone)",
     youHold: "vous détenez ce dossier",
+    possibleAllergy: "Allergie possible :",
     deviceNote: "Vit sur cet appareil. Rien n’est envoyé.",
     emptyAllergies: "Aucune",
     emptyConditions: "Aucune",
@@ -840,6 +853,7 @@ window.HEALTH_COPY = {
     hospitalsEdit: "Hospitals (name | city | note)",
     professionalsEdit: "Clinicians (name | role | phone)",
     youHold: "you hold this record",
+    possibleAllergy: "Possible allergy:",
     deviceNote: "Lives on this device. Nothing is sent.",
     emptyAllergies: "None",
     emptyConditions: "None",
@@ -962,6 +976,45 @@ window.HEALTH_COPY = {
     copy: "Copy",
   },
 };
+
+// Short, generic list of common allergens. No personal data.
+// Each entry lists spellings to match (case- and accent-insensitive, full words).
+window.COMMON_ALLERGENS = [
+  ["penicillin", "pénicilline"],
+  ["amoxicillin", "amoxicilline"],
+  ["aspirin", "aspirine"],
+  ["ibuprofen", "ibuprofène"],
+  ["sulfa", "sulfamide", "sulfonamide"],
+  ["codeine", "codéine"],
+  ["latex"],
+  ["peanut", "arachide", "cacahuète"],
+];
+
+(function () {
+  function norm(s) {
+    return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  }
+  function hasWord(text, word) {
+    return new RegExp("(^|[^a-z0-9])" + word + "s?([^a-z0-9]|$)").test(text);
+  }
+  // Passive check only: returns the terms to flag, never asks anything.
+  window.findAllergenFlags = function (record) {
+    const r = record || {};
+    const listed = norm((r.allergies || []).map((a) => [a.name, a.detail].join(" ")).join(" "));
+    const text = norm(
+      [].concat(r.medications || [], r.conditions || [])
+        .map((x) => [x.name, x.detail, x.dose, x.notes].join(" "))
+        .join(" ")
+    );
+    const flags = [];
+    window.COMMON_ALLERGENS.forEach((spellings) => {
+      const words = spellings.map(norm);
+      const hit = spellings.find((s, i) => hasWord(text, words[i]));
+      if (hit && !words.some((w) => hasWord(listed, w))) flags.push(hit);
+    });
+    return flags;
+  };
+})();
 
 window.ConfidenceStore = (() => {
   const KEY = "confidence.record.v1";
@@ -1717,6 +1770,19 @@ window.ConfidenceCard = (() => {
     return bits.join(" · ");
   }
 
+  function renderAllergenFlags(r) {
+    const box = $("allergen-flags");
+    if (!box) return;
+    box.innerHTML = "";
+    (window.findAllergenFlags ? window.findAllergenFlags(r) : []).forEach((term) => {
+      const flag = document.createElement("p");
+      flag.className = "allergen-flag";
+      flag.setAttribute("role", "note");
+      flag.textContent = t("possibleAllergy") + " " + term;
+      box.appendChild(flag);
+    });
+  }
+
   function renderRecord() {
     const r = state.record;
     $("blood-type").textContent = r.blood_type || "—";
@@ -1726,6 +1792,7 @@ window.ConfidenceCard = (() => {
       : t("addBloodHint");
     $("holder-name").textContent = r.display_name;
     renderList("allergies", r.allergies, allergyLine, "emptyAllergies");
+    renderAllergenFlags(r);
     renderList("medications", r.medications, medLine, "emptyMedications");
     renderList("conditions", r.conditions, condLine, "emptyConditions");
     renderList("hospitals", r.hospitals, hospitalLine, "emptyHospitals");

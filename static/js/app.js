@@ -120,6 +120,19 @@
     return bits.join(" · ");
   }
 
+  function renderAllergenFlags(r) {
+    const box = $("allergen-flags");
+    if (!box) return;
+    box.innerHTML = "";
+    (window.findAllergenFlags ? window.findAllergenFlags(r) : []).forEach((term) => {
+      const flag = document.createElement("p");
+      flag.className = "allergen-flag";
+      flag.setAttribute("role", "note");
+      flag.textContent = t("possibleAllergy") + " " + term;
+      box.appendChild(flag);
+    });
+  }
+
   function renderRecord() {
     const r = state.record;
     $("blood-type").textContent = r.blood_type || "—";
@@ -129,6 +142,7 @@
       : t("addBloodHint");
     $("holder-name").textContent = r.display_name;
     renderList("allergies", r.allergies, allergyLine, "emptyAllergies");
+    renderAllergenFlags(r);
     renderList("medications", r.medications, medLine, "emptyMedications");
     renderList("conditions", r.conditions, condLine, "emptyConditions");
     renderList("hospitals", r.hospitals, hospitalLine, "emptyHospitals");
