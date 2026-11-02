@@ -1,0 +1,21 @@
+name: Pull request description
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  check-description:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check required headings
+        env:
+          PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
+        run: python scripts/check_pull_request_description.py
