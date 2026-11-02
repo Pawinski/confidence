@@ -348,17 +348,30 @@ input, select, textarea {
 .check span { color: var(--ink); }
 
 .hold {
-  min-height: 100vh;
-  padding: max(1.25rem, env(safe-area-inset-top)) 1.25rem 6rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow: hidden;
+  padding-top: max(1.25rem, env(safe-area-inset-top));
+  padding-right: calc(1.25rem + env(safe-area-inset-right, 0px));
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(1.25rem + env(safe-area-inset-left, 0px));
 }
 
 .hold-sheet {
   max-width: 40rem;
+  width: 100%;
   margin: 0 auto;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.4rem 1.3rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
 }
 
 .hold-grid {
@@ -372,25 +385,37 @@ input, select, textarea {
 }
 
 .hold-actions {
-  position: sticky;
-  bottom: 0.75rem;
+  position: static;
+  flex: 0 0 auto;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: center;
   margin-top: 1.25rem;
+  background: var(--bg);
 }
 
 @media print {
   @page { size: letter; margin: 12mm; }
   html, body { background: #fff; }
   .top, .hero-actions, .dialog, .toast, .no-print, #workspace, #incident-view { display: none !important; }
-  .hold { display: block !important; padding: 0; min-height: 0; }
+  .hold {
+    display: block !important;
+    padding: 0;
+    height: auto;
+    max-height: none;
+    min-height: 0;
+    overflow: visible;
+  }
   .hold.hidden { display: block !important; }
   .hold-sheet {
     border: 0;
     padding: 0;
     max-width: none;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    flex: none;
   }
 }
 
