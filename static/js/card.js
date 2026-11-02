@@ -35,7 +35,7 @@ window.ConfidenceCard = (() => {
         "</strong> · " +
         escapeHtml(sev[item.severity] || item.severity) +
         (item.detail ? " — " + escapeHtml(item.detail) : ""),
-      copy.none
+      copy.emptyAllergies
     );
     const meds = listHtml(
       r.medications,
@@ -45,7 +45,7 @@ window.ConfidenceCard = (() => {
         "</strong>" +
         (item.dose ? " · " + escapeHtml(item.dose) : "") +
         (item.schedule ? " · " + escapeHtml(item.schedule) : ""),
-      copy.none
+      copy.emptyMedications
     );
     const conds = listHtml(
       r.conditions,
@@ -54,10 +54,11 @@ window.ConfidenceCard = (() => {
         escapeHtml(item.name) +
         "</strong>" +
         (item.since ? " · " + escapeHtml(item.since) : ""),
-      copy.none
+      copy.emptyConditions
     );
     const emergency =
-      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") || copy.none;
+      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") ||
+      copy.emptyEmergencyContact;
     const hospitals = listHtml(
       r.hospitals,
       (item) =>
@@ -66,7 +67,7 @@ window.ConfidenceCard = (() => {
         "</strong>" +
         (item.city ? " · " + escapeHtml(item.city) : "") +
         (item.note ? " · " + escapeHtml(item.note) : ""),
-      copy.none
+      copy.emptyHospitals
     );
     const professionals = listHtml(
       r.professionals,
@@ -76,7 +77,7 @@ window.ConfidenceCard = (() => {
         "</strong>" +
         (item.role ? " · " + escapeHtml(item.role) : "") +
         (item.phone ? " · " + escapeHtml(item.phone) : ""),
-      copy.none
+      copy.emptyProfessionals
     );
 
     return `<!DOCTYPE html>

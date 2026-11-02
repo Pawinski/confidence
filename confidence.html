@@ -704,7 +704,12 @@ window.HEALTH_COPY = {
     professionalsEdit: "Professionnels (nom | rôle | téléphone)",
     youHold: "vous détenez ce dossier",
     deviceNote: "Vit sur cet appareil. Rien n’est envoyé.",
-    none: "Aucun",
+    emptyAllergies: "Aucune",
+    emptyConditions: "Aucune",
+    emptyMedications: "Aucun",
+    emptyHospitals: "Aucun",
+    emptyProfessionals: "Aucun",
+    emptyEmergencyContact: "Aucune",
     editTitle: "Modifier le dossier",
     name: "Nom",
     abo: "ABO",
@@ -836,7 +841,12 @@ window.HEALTH_COPY = {
     professionalsEdit: "Clinicians (name | role | phone)",
     youHold: "you hold this record",
     deviceNote: "Lives on this device. Nothing is sent.",
-    none: "None",
+    emptyAllergies: "None",
+    emptyConditions: "None",
+    emptyMedications: "None",
+    emptyHospitals: "None",
+    emptyProfessionals: "None",
+    emptyEmergencyContact: "None",
     editTitle: "Edit record",
     name: "Name",
     abo: "ABO",
@@ -1461,7 +1471,7 @@ window.ConfidenceCard = (() => {
         "</strong> · " +
         escapeHtml(sev[item.severity] || item.severity) +
         (item.detail ? " — " + escapeHtml(item.detail) : ""),
-      copy.none
+      copy.emptyAllergies
     );
     const meds = listHtml(
       r.medications,
@@ -1471,7 +1481,7 @@ window.ConfidenceCard = (() => {
         "</strong>" +
         (item.dose ? " · " + escapeHtml(item.dose) : "") +
         (item.schedule ? " · " + escapeHtml(item.schedule) : ""),
-      copy.none
+      copy.emptyMedications
     );
     const conds = listHtml(
       r.conditions,
@@ -1480,10 +1490,11 @@ window.ConfidenceCard = (() => {
         escapeHtml(item.name) +
         "</strong>" +
         (item.since ? " · " + escapeHtml(item.since) : ""),
-      copy.none
+      copy.emptyConditions
     );
     const emergency =
-      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") || copy.none;
+      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") ||
+      copy.emptyEmergencyContact;
     const hospitals = listHtml(
       r.hospitals,
       (item) =>
@@ -1492,7 +1503,7 @@ window.ConfidenceCard = (() => {
         "</strong>" +
         (item.city ? " · " + escapeHtml(item.city) : "") +
         (item.note ? " · " + escapeHtml(item.note) : ""),
-      copy.none
+      copy.emptyHospitals
     );
     const professionals = listHtml(
       r.professionals,
@@ -1502,7 +1513,7 @@ window.ConfidenceCard = (() => {
         "</strong>" +
         (item.role ? " · " + escapeHtml(item.role) : "") +
         (item.phone ? " · " + escapeHtml(item.phone) : ""),
-      copy.none
+      copy.emptyProfessionals
     );
 
     return `<!DOCTYPE html>
@@ -1629,13 +1640,13 @@ window.ConfidenceCard = (() => {
     toast._t = setTimeout(() => el.classList.add("hidden"), 2200);
   }
 
-  function renderList(id, items, line) {
+  function renderList(id, items, line, emptyKey) {
     const ul = $(id);
     ul.innerHTML = "";
     if (!items || !items.length) {
       const li = document.createElement("li");
       li.className = "empty";
-      li.textContent = t("none");
+      li.textContent = t(emptyKey);
       ul.appendChild(li);
       return;
     }
@@ -1714,13 +1725,14 @@ window.ConfidenceCard = (() => {
       ? metaText(r)
       : t("addBloodHint");
     $("holder-name").textContent = r.display_name;
-    renderList("allergies", r.allergies, allergyLine);
-    renderList("medications", r.medications, medLine);
-    renderList("conditions", r.conditions, condLine);
-    renderList("hospitals", r.hospitals, hospitalLine);
-    renderList("professionals", r.professionals, proLine);
+    renderList("allergies", r.allergies, allergyLine, "emptyAllergies");
+    renderList("medications", r.medications, medLine, "emptyMedications");
+    renderList("conditions", r.conditions, condLine, "emptyConditions");
+    renderList("hospitals", r.hospitals, hospitalLine, "emptyHospitals");
+    renderList("professionals", r.professionals, proLine, "emptyProfessionals");
     $("emergency").textContent =
-      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") || t("none");
+      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") ||
+      t("emptyEmergencyContact");
     renderIncidentList();
   }
 
@@ -1825,13 +1837,14 @@ window.ConfidenceCard = (() => {
     $("hold-blood").textContent = r.blood_type || "—";
     $("hold-blood").classList.toggle("is-empty", !r.blood_type);
     $("hold-meta").textContent = metaText(r);
-    renderList("hold-allergies", r.allergies, allergyLine);
-    renderList("hold-medications", r.medications, medLine);
-    renderList("hold-conditions", r.conditions, condLine);
-    renderList("hold-hospitals", r.hospitals, hospitalLine);
-    renderList("hold-professionals", r.professionals, proLine);
+    renderList("hold-allergies", r.allergies, allergyLine, "emptyAllergies");
+    renderList("hold-medications", r.medications, medLine, "emptyMedications");
+    renderList("hold-conditions", r.conditions, condLine, "emptyConditions");
+    renderList("hold-hospitals", r.hospitals, hospitalLine, "emptyHospitals");
+    renderList("hold-professionals", r.professionals, proLine, "emptyProfessionals");
     $("hold-emergency").textContent =
-      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") || t("none");
+      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") ||
+      t("emptyEmergencyContact");
   }
 
   function lines(text) {

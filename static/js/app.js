@@ -43,13 +43,13 @@
     toast._t = setTimeout(() => el.classList.add("hidden"), 2200);
   }
 
-  function renderList(id, items, line) {
+  function renderList(id, items, line, emptyKey) {
     const ul = $(id);
     ul.innerHTML = "";
     if (!items || !items.length) {
       const li = document.createElement("li");
       li.className = "empty";
-      li.textContent = t("none");
+      li.textContent = t(emptyKey);
       ul.appendChild(li);
       return;
     }
@@ -128,13 +128,14 @@
       ? metaText(r)
       : t("addBloodHint");
     $("holder-name").textContent = r.display_name;
-    renderList("allergies", r.allergies, allergyLine);
-    renderList("medications", r.medications, medLine);
-    renderList("conditions", r.conditions, condLine);
-    renderList("hospitals", r.hospitals, hospitalLine);
-    renderList("professionals", r.professionals, proLine);
+    renderList("allergies", r.allergies, allergyLine, "emptyAllergies");
+    renderList("medications", r.medications, medLine, "emptyMedications");
+    renderList("conditions", r.conditions, condLine, "emptyConditions");
+    renderList("hospitals", r.hospitals, hospitalLine, "emptyHospitals");
+    renderList("professionals", r.professionals, proLine, "emptyProfessionals");
     $("emergency").textContent =
-      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") || t("none");
+      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") ||
+      t("emptyEmergencyContact");
     renderIncidentList();
   }
 
@@ -239,13 +240,14 @@
     $("hold-blood").textContent = r.blood_type || "—";
     $("hold-blood").classList.toggle("is-empty", !r.blood_type);
     $("hold-meta").textContent = metaText(r);
-    renderList("hold-allergies", r.allergies, allergyLine);
-    renderList("hold-medications", r.medications, medLine);
-    renderList("hold-conditions", r.conditions, condLine);
-    renderList("hold-hospitals", r.hospitals, hospitalLine);
-    renderList("hold-professionals", r.professionals, proLine);
+    renderList("hold-allergies", r.allergies, allergyLine, "emptyAllergies");
+    renderList("hold-medications", r.medications, medLine, "emptyMedications");
+    renderList("hold-conditions", r.conditions, condLine, "emptyConditions");
+    renderList("hold-hospitals", r.hospitals, hospitalLine, "emptyHospitals");
+    renderList("hold-professionals", r.professionals, proLine, "emptyProfessionals");
     $("hold-emergency").textContent =
-      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") || t("none");
+      [r.emergency_name, r.emergency_phone].filter(Boolean).join(" · ") ||
+      t("emptyEmergencyContact");
   }
 
   function lines(text) {
