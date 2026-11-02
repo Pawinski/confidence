@@ -18,7 +18,7 @@ Screenshots: <BEFORE and AFTER links, mobile plus desktop>
 — or — `UI: none — <one-line reason nothing is visible>`
 
 ## Risk and veto
-- Confidence: <HIGH/MEDIUM/LOW> <score>, or n/a if the repo has no gate
+- Gate level: <HIGH/MEDIUM/LOW> <score>
 - Veto area touched: <no / yes: which, and the owner's approval link>
 - Secret scan: <hit count>
 
@@ -27,6 +27,10 @@ Screenshots: <BEFORE and AFTER links, mobile plus desktop>
 |---|---|---|
 | Tokens | <range> | <measured> |
 | Agent hours | <est> | <measured> |
+| Usage cost ($) | <$X at $0.56/M (≈? % of a week (calibration pending))> | <$X at $0.56/M (≈? % of a week (calibration pending))> |
+| Financial impact ($) | <$ value, with inputs and the assumption labelled> | <$ measured, with inputs and assumption> |
+
+<!-- $0.56/M is a blended reference rate from the public price list https://docs.x.ai/docs/models. Weekly share is not calibrated yet. -->
 
 ## Fixes
 <!-- Link to the issue this closes, e.g. Fixes #123 -->

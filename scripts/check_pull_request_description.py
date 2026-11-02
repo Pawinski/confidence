@@ -41,6 +41,31 @@ def find_problems(body):
                 section.append(line)
         if not section:
             problems.append("The Why section is empty")
+    if "## Cost" in lines:
+        cost = []
+        for line in lines[lines.index("## Cost") + 1:]:
+            if line.startswith("## "):
+                break
+            cost.append(line)
+        for label in ("Usage cost ($)", "Financial impact ($)"):
+            rows = [line for line in cost if line.startswith("|") and label.lower() in line.lower()]
+            if not rows:
+                problems.append(f"Cost table is missing the {label} row")
+                continue
+            cells = [cell.strip() for cell in rows[0].strip("|").split("|")[1:]]
+            for cell in cells[:2]:
+                if not re.search(r"\$\s*\d", cell) or re.search(r"(?i)\bn/?a\b|\$0 marginal|not measured", cell):
+                    problems.append(f"{label} needs a real $ figure, got: {cell or 'blank'}")
+    end = len(lines)
+    if "## Cost" in lines:
+        for index in range(lines.index("## Cost") + 1, len(lines)):
+            if lines[index].startswith("## "):
+                end = index
+                break
+    required = re.sub(r"<!--.*?-->", "", "\n".join(lines[:end]), flags=re.S)
+    for placeholder in re.findall(r"<[^<>\n]+>", required):
+        if not re.match(r"</?(img|br|a|p|sub|sup|details|summary)\b", placeholder, re.I):
+            problems.append(f"Unfilled placeholder: {placeholder}")
     for line in lines:
         text = line.strip("`*- ")
         if re.match(r"(?i)^UI:\s*none\b", text):
