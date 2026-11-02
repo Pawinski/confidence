@@ -1,10 +1,11 @@
 /* App shell only. Patient facts stay in localStorage, never in this cache. */
-const CACHE = "confidence-shell-v2";
+const CACHE = "confidence-shell-v3";
 const SHELL = [
   "./",
   "./index.html",
   "./css/app.css",
   "./js/copy.js",
+  "./js/common-allergens.js",
   "./js/store.js",
   "./js/incidents.js",
   "./js/auth.js",

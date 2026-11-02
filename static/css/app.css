@@ -375,3 +375,14 @@ input, select, textarea {
     max-width: none;
   }
 }
+
+.allergen-flags:empty { display: none; }
+.allergen-flag {
+  display: inline-block;
+  margin: 0.5rem 0 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #fbe8c8;
+  color: #6b3d00;
+  font-size: 0.85rem;
+}

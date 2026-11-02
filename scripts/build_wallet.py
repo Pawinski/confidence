@@ -14,6 +14,7 @@ def main() -> None:
     css = (STATIC / "css" / "app.css").read_text(encoding="utf-8")
     scripts = [
         (STATIC / "js" / "copy.js").read_text(encoding="utf-8"),
+        (STATIC / "js" / "common-allergens.js").read_text(encoding="utf-8"),
         (STATIC / "js" / "store.js").read_text(encoding="utf-8"),
         (STATIC / "js" / "incidents.js").read_text(encoding="utf-8"),
         (STATIC / "js" / "auth.js").read_text(encoding="utf-8"),
@@ -36,6 +37,7 @@ def main() -> None:
     bundle = "\n".join(scripts)
     html = html.replace(
         """  <script src="js/copy.js"></script>
+  <script src="js/common-allergens.js"></script>
   <script src="js/store.js"></script>
   <script src="js/incidents.js"></script>
   <script src="js/auth.js"></script>
