@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 
 import qrcode
 from fastapi import FastAPI, Request
+from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -57,7 +58,7 @@ TESTING = os.environ.get("HEALTH_TESTING", "0") == "1"
 store = Store(Path(os.environ.get("HEALTH_DB", DATA_DIR / "health.db")))
 store.seed_demo_if_empty()
 
-app = FastAPI(title="Confidence", docs_url=None, redoc_url=None)
+app = FastAPI(title="Confidence", docs_url=None, redoc_url=None, openapi_url=None)
 app.mount("/static", StaticFiles(directory=ROOT / "static"), name="static")
 templates = Jinja2Templates(directory=str(ROOT / "templates"))
 
@@ -167,6 +168,29 @@ def _qr_svg(url: str) -> str:
 @app.get("/healthz")
 def healthz() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/openapi.json")
+def openapi_spec(request: Request) -> Response:
+    limited = _limited(request, "read")
+    if limited:
+        return limited
+    if _session_patient(request) is None:
+        return _json_error("unauthorized", 401)
+    return JSONResponse(app.openapi())
+
+
+@app.get("/docs")
+def swagger_ui(request: Request) -> Response:
+    limited = _limited(request, "read")
+    if limited:
+        return limited
+    if _session_patient(request) is None:
+        return _json_error("unauthorized", 401)
+    return get_swagger_ui_html(
+        openapi_url="/openapi.json",
+        title="Confidence - Swagger UI",
+    )
 
 
 @app.get("/", response_class=HTMLResponse)
