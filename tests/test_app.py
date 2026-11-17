@@ -173,3 +173,31 @@ def test_expired_share_is_gone(tmp_path: Path) -> None:
     main.store = store
     client = TestClient(main.app)
     assert client.get("/s/tok123").status_code == 404
+
+
+def test_openapi_requires_session(tmp_path: Path) -> None:
+    client = _client(tmp_path)
+    res = client.get("/openapi.json")
+    assert res.status_code == 401
+    assert res.json() == {"error": "unauthorized"}
+
+
+def test_docs_require_session(tmp_path: Path) -> None:
+    client = _client(tmp_path)
+    res = client.get("/docs")
+    assert res.status_code == 401
+    assert res.json() == {"error": "unauthorized"}
+
+
+def test_openapi_and_docs_available_with_session(tmp_path: Path) -> None:
+    client = _client(tmp_path)
+    _login(client)
+    spec = client.get("/openapi.json")
+    assert spec.status_code == 200
+    body = spec.json()
+    assert body["info"]["title"] == "Confidence"
+    assert "/api/me" in body["paths"]
+    assert "/openapi.json" in body["paths"]
+    docs = client.get("/docs")
+    assert docs.status_code == 200
+    assert "swagger-ui" in docs.text.lower()
