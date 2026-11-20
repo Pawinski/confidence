@@ -1,0 +1,35 @@
+{
+  "notes": {
+    "purpose": "Privacy-safe fixture for on-device activation counters. A later counter slice can test against this file.",
+    "data_stays_on_the_device": true,
+    "contains_no_personal_or_medical_data": true,
+    "synthetic_examples_only": true
+  },
+  "activation_definition": "The share of new holders who save at least one durable fact within seven days of first opening an empty record.",
+  "events_counted": [
+    "empty_record_first_opened",
+    "first_durable_fact_saved",
+    "seven_day_window_ended"
+  ],
+  "synthetic_on_device_counter_examples": [
+    {
+      "empty_record_first_opened_on": "2026-01-05",
+      "empty_record_open_count": 3,
+      "first_durable_fact_saved_on": "2026-01-08",
+      "seven_day_window_ends_on": "2026-01-12",
+      "saved_at_least_one_durable_fact_within_seven_days": true
+    },
+    {
+      "empty_record_first_opened_on": "2026-01-06",
+      "empty_record_open_count": 1,
+      "first_durable_fact_saved_on": null,
+      "seven_day_window_ends_on": "2026-01-13",
+      "saved_at_least_one_durable_fact_within_seven_days": false
+    }
+  ],
+  "aggregates": {
+    "new_holders_who_first_opened_an_empty_record": 2,
+    "new_holders_who_saved_at_least_one_durable_fact_within_seven_days": 1,
+    "activation_share": 0.5
+  }
+}
