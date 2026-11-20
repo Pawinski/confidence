@@ -1,9 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PatientRecord, DEFAULT_RECORD, SAMPLE_RECORD } from '../types/record';
+import { PatientRecord, DEFAULT_RECORD } from '../types/record';
 
 const RECORD_KEY = 'confidence.record.v1';
 const LOCALE_KEY = 'confidence.locale';
-const USE_SAMPLE_DATA_KEY = 'confidence.useSampleData';
 
 function normalizeRecord(raw: Partial<PatientRecord> | null): PatientRecord {
   const r = { ...DEFAULT_RECORD, ...(raw || {}) };
@@ -17,13 +16,6 @@ function normalizeRecord(raw: Partial<PatientRecord> | null): PatientRecord {
 
 export async function loadRecord(): Promise<PatientRecord> {
   try {
-    const useSample = await AsyncStorage.getItem(USE_SAMPLE_DATA_KEY);
-    if (useSample === null) {
-      await AsyncStorage.setItem(USE_SAMPLE_DATA_KEY, 'true');
-      await AsyncStorage.setItem(RECORD_KEY, JSON.stringify(SAMPLE_RECORD));
-      return SAMPLE_RECORD;
-    }
-
     const raw = await AsyncStorage.getItem(RECORD_KEY);
     if (raw) {
       return normalizeRecord(JSON.parse(raw));
@@ -58,5 +50,5 @@ export async function saveLocale(locale: 'fr' | 'en'): Promise<void> {
 }
 
 export async function clearAllData(): Promise<void> {
-  await AsyncStorage.multiRemove([RECORD_KEY, LOCALE_KEY, USE_SAMPLE_DATA_KEY]);
+  await AsyncStorage.multiRemove([RECORD_KEY, LOCALE_KEY]);
 }
