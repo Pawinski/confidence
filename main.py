@@ -27,23 +27,9 @@ from mcp_auth import (
     LockedOut,
     cookie_matches,
     has_password,
-    install_agent_hash,
     lock as auth_lock,
-    mint_agent_token,
-    revoke_agent_token,
-    session_valid,
     set_password as auth_set_password,
     unlock as auth_unlock,
-)
-from mcp_consent import (
-    CONSENT_VERSION,
-    REQUIRED_ACKS,
-    ConsentOff,
-    disable as mcp_disable,
-    enable as mcp_enable,
-    is_enabled as mcp_is_enabled,
-    load_consent,
-    save_snapshot,
 )
 
 ROOT = Path(__file__).resolve().parent
@@ -360,73 +346,6 @@ def logout_redirect() -> RedirectResponse:
     return RedirectResponse("/", status_code=302)
 
 
-@app.get("/api/mcp/status")
-def mcp_status(request: Request) -> Response:
-    limited = _limited(request, "read")
-    if limited:
-        return limited
-    return JSONResponse(
-        {
-            "enabled": mcp_is_enabled(),
-            "unlocked": session_valid() and _authed(request),
-            "has_password": has_password(),
-            "version": CONSENT_VERSION,
-            "required": list(REQUIRED_ACKS),
-            "consent": load_consent(),
-        }
-    )
-
-
-@app.post("/api/mcp/consent")
-async def mcp_consent(request: Request) -> Response:
-    limited = _limited(request, "write")
-    if limited:
-        return limited
-    if not _origin_ok(request) or not _csrf_ok(request):
-        return _json_error("csrf", 403)
-    try:
-        body = await request.json()
-    except Exception:
-        return _json_error("invalid_json")
-    if not isinstance(body, dict):
-        return _json_error("invalid_json")
-    if body.get("enabled") is False:
-        return JSONResponse({"consent": mcp_disable(), "enabled": False})
-    if not _authed(request):
-        return _json_error("auth_required", 401)
-    try:
-        row = mcp_enable(list(body.get("acknowledged") or []))
-    except ValueError as exc:
-        return _json_error(str(exc))
-    return JSONResponse({"consent": row, "enabled": True})
-
-
-@app.put("/api/mcp/snapshot")
-async def mcp_snapshot(request: Request) -> Response:
-    limited = _limited(request, "write")
-    if limited:
-        return limited
-    if not _origin_ok(request) or not _csrf_ok(request):
-        return _json_error("csrf", 403)
-    if not _authed(request):
-        return _json_error("auth_required", 401)
-    try:
-        body = await request.json()
-    except Exception:
-        return _json_error("invalid_json")
-    if not isinstance(body, dict):
-        return _json_error("invalid_json")
-    record = body.get("record") if isinstance(body.get("record"), dict) else {}
-    incidents = body.get("incidents") if isinstance(body.get("incidents"), list) else []
-    try:
-        save_snapshot(record, incidents)
-    except AuthRequired as exc:
-        return _json_error(str(exc), 401)
-    except ConsentOff as exc:
-        return _json_error(str(exc), 403)
-    return JSONResponse({"ok": True})
-
-
 @app.get("/api/auth/status")
 def auth_status(request: Request) -> Response:
     limited = _limited(request, "read")
@@ -497,42 +416,3 @@ def auth_lock_route(request: Request) -> Response:
     response = JSONResponse({"ok": True, "unlocked": False})
     response.delete_cookie(AUTH_COOKIE, path="/")
     return response
-
-
-@app.post("/api/auth/agent/mint")
-async def auth_agent_mint(request: Request) -> Response:
-    limited = _limited(request, "auth")
-    if limited:
-        return limited
-    if not _origin_ok(request) or not _csrf_ok(request):
-        return _json_error("csrf", 403)
-    if not _authed(request):
-        return _json_error("auth_required", 401)
-    try:
-        body = await request.json()
-    except Exception:
-        body = {}
-    if isinstance(body, dict) and body.get("hash"):
-        try:
-            install_agent_hash({"hash": str(body["hash"])})
-        except ValueError as exc:
-            return _json_error(str(exc))
-        return JSONResponse({"ok": True, "has_agent_token": True})
-    try:
-        token = mint_agent_token()
-    except AuthRequired as exc:
-        return _json_error(str(exc), 401)
-    return JSONResponse({"token": token, "has_agent_token": True})
-
-
-@app.post("/api/auth/agent/revoke")
-def auth_agent_revoke(request: Request) -> Response:
-    limited = _limited(request, "auth")
-    if limited:
-        return limited
-    if not _origin_ok(request) or not _csrf_ok(request):
-        return _json_error("csrf", 403)
-    if not _authed(request):
-        return _json_error("auth_required", 401)
-    revoke_agent_token()
-    return JSONResponse({"ok": True, "has_agent_token": False})

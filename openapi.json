@@ -282,54 +282,6 @@
         }
       }
     },
-    "/api/mcp/status": {
-      "get": {
-        "summary": "Mcp Status",
-        "operationId": "mcp_status_api_mcp_status_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/mcp/consent": {
-      "post": {
-        "summary": "Mcp Consent",
-        "operationId": "mcp_consent_api_mcp_consent_post",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/mcp/snapshot": {
-      "put": {
-        "summary": "Mcp Snapshot",
-        "operationId": "mcp_snapshot_api_mcp_snapshot_put",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/auth/status": {
       "get": {
         "summary": "Auth Status",
@@ -382,38 +334,6 @@
       "post": {
         "summary": "Auth Lock Route",
         "operationId": "auth_lock_route_api_auth_lock_post",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/auth/agent/mint": {
-      "post": {
-        "summary": "Auth Agent Mint",
-        "operationId": "auth_agent_mint_api_auth_agent_mint_post",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/auth/agent/revoke": {
-      "post": {
-        "summary": "Auth Agent Revoke",
-        "operationId": "auth_agent_revoke_api_auth_agent_revoke_post",
         "responses": {
           "200": {
             "description": "Successful Response",
