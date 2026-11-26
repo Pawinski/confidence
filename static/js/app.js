@@ -3,8 +3,6 @@
   const store = window.ConfidenceStore;
   const card = window.ConfidenceCard;
   const incidents = window.ConfidenceIncidents;
-  const mcpGate = window.ConfidenceMcp;
-  const auth = window.ConfidenceAuth;
   const state = {
     lang: localStorage.getItem("health.lang") || "fr",
     record: store.load(),
@@ -32,7 +30,6 @@
     $("lang-toggle").textContent = state.lang === "fr" ? "EN" : "FR";
     renderIncidentList();
     if (state.incidentId) renderIncident();
-    renderMcp();
   }
 
   function toast(msg) {
@@ -333,7 +330,6 @@
     renderRecord();
     $("edit-dialog").close();
     toast(t("saved"));
-    syncMcpSnapshot();
   }
 
   function openHold() {
@@ -440,22 +436,6 @@
       if (!$("hold-card").classList.contains("hidden")) renderHold();
       if (state.incidentId) renderIncident();
     });
-    $("auth-set").addEventListener("click", () => $("auth-set-dialog").showModal());
-    $("auth-set-cancel").addEventListener("click", () => $("auth-set-dialog").close());
-    $("auth-set-form").addEventListener("submit", submitSetPassword);
-    $("auth-unlock").addEventListener("click", () => $("auth-unlock-dialog").showModal());
-    $("auth-unlock-cancel").addEventListener("click", () => $("auth-unlock-dialog").close());
-    $("auth-unlock-form").addEventListener("submit", submitUnlock);
-    $("auth-lock").addEventListener("click", submitLock);
-    $("mcp-toggle").addEventListener("click", toggleMcp);
-    $("mcp-cancel").addEventListener("click", () => $("mcp-dialog").close());
-    $("mcp-form").addEventListener("submit", acceptMcp);
-    $("mcp-form").addEventListener("change", refreshMcpConfirm);
-    $("mcp-pack").addEventListener("click", downloadPack);
-    $("mcp-mint").addEventListener("click", mintAgent);
-    $("mcp-revoke").addEventListener("click", revokeAgent);
-    $("agent-done").addEventListener("click", () => $("agent-dialog").close());
-    $("agent-copy").addEventListener("click", copyAgentToken);
     $("declare-btn").addEventListener("click", openDeclare);
     $("declare-cancel").addEventListener("click", () => $("declare-dialog").close());
     $("declare-form").addEventListener("submit", declareIncident);
@@ -488,267 +468,6 @@
         toast(how === "shared" ? t("shared") : t("cardSaved"));
       }).catch((err) => toast(err.message));
     });
-  }
-
-  function csrfToken() {
-    const match = document.cookie.match(/(?:^|; )health_csrf=([^;]+)/);
-    return match ? decodeURIComponent(match[1]) : "";
-  }
-
-  function mcpSnippet() {
-    return [
-      "[mcp_servers.confidence]",
-      'command = ".venv/bin/python"',
-      'args = ["mcp_server.py"]',
-      "",
-      "[mcp_servers.confidence.env]",
-      'CONFIDENCE_AGENT_TOKEN = "${CONFIDENCE_AGENT_TOKEN}"',
-      "",
-      t("mcpInstallHelp"),
-    ].join("\n");
-  }
-
-  function renderMcp() {
-    const on = mcpGate.isEnabled();
-    const hasPw = auth.hasPassword();
-    const unlocked = auth.isUnlocked();
-    let stateText = t("mcpOff");
-    if (!hasPw) stateText = t("mcpNeedAuth");
-    else if (!unlocked) stateText = t("authLocked");
-    else if (on) stateText = t("mcpOn");
-    $("mcp-state").textContent = stateText;
-    $("auth-set").classList.toggle("hidden", hasPw);
-    $("auth-unlock").classList.toggle("hidden", !hasPw || unlocked);
-    $("auth-lock").classList.toggle("hidden", !unlocked);
-    $("mcp-toggle").classList.toggle("hidden", !unlocked);
-    $("mcp-toggle").textContent = on ? t("mcpDisable") : t("mcpEnable");
-    $("mcp-toggle").classList.toggle("primary", !on);
-    $("mcp-toggle").classList.toggle("ghost", on);
-    $("mcp-pack").classList.toggle("hidden", !on || !unlocked);
-    $("mcp-mint").classList.toggle("hidden", !on || !unlocked);
-    $("mcp-revoke").classList.toggle("hidden", !on || !unlocked || !mcpGate.hasAgentToken());
-    $("mcp-snippet").classList.toggle("hidden", !on || !unlocked);
-    $("mcp-snippet").textContent = on && unlocked ? mcpSnippet() : "";
-  }
-
-  function mcpAcksFromForm() {
-    const form = $("mcp-form");
-    return mcpGate.REQUIRED.filter((name) => form[name] && form[name].checked);
-  }
-
-  function refreshMcpConfirm() {
-    $("mcp-confirm").disabled = mcpAcksFromForm().length !== mcpGate.REQUIRED.length;
-  }
-
-  function downloadPack() {
-    const payload = mcpGate.pack(
-      state.record,
-      incidents.loadAll(),
-      mcpGate.load(),
-      auth.hasPassword() ? auth.verifier() : null
-    );
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "confidence-agent-pack.json";
-    a.click();
-    URL.revokeObjectURL(url);
-    toast(t("mcpPackSaved"));
-  }
-
-  async function syncMcpSnapshot() {
-    if (!mcpGate.isEnabled()) return;
-    const token = csrfToken();
-    if (!token || location.protocol === "file:") return;
-    try {
-      await fetch("/api/mcp/snapshot", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token,
-        },
-        body: JSON.stringify({
-          record: state.record,
-          incidents: incidents.loadAll(),
-        }),
-      });
-    } catch (err) {
-      /* Pages / file — pack download is the path */
-    }
-  }
-
-  async function persistConsent(enabled, acknowledged) {
-    const token = csrfToken();
-    if (!token || location.protocol === "file:") return;
-    try {
-      await fetch("/api/mcp/consent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token,
-        },
-        body: JSON.stringify({ enabled: enabled, acknowledged: acknowledged || [] }),
-      });
-    } catch (err) {
-      /* local API optional */
-    }
-  }
-
-  function openMcpConsent() {
-    const form = $("mcp-form");
-    mcpGate.REQUIRED.forEach((name) => {
-      if (form[name]) form[name].checked = false;
-    });
-    refreshMcpConfirm();
-    $("mcp-dialog").showModal();
-  }
-
-  function acceptMcp(event) {
-    event.preventDefault();
-    const acks = mcpAcksFromForm();
-    if (acks.length !== mcpGate.REQUIRED.length) {
-      toast(t("mcpNeedChecks"));
-      return;
-    }
-    mcpGate.enable(acks);
-    $("mcp-dialog").close();
-    renderMcp();
-    persistConsent(true, acks);
-    syncMcpSnapshot();
-    downloadPack();
-  }
-
-  async function submitSetPassword(event) {
-    event.preventDefault();
-    const form = $("auth-set-form");
-    const pw = form.password.value;
-    const again = form.confirm.value;
-    if (pw !== again) {
-      toast(t("authNeedMatch"));
-      return;
-    }
-    if (pw.length < auth.MIN) {
-      toast(t("authTooShort"));
-      return;
-    }
-    try {
-      await auth.setPassword(pw);
-    } catch (err) {
-      toast(t("authTooShort"));
-      return;
-    }
-    await persistAuth("set", pw);
-    form.reset();
-    $("auth-set-dialog").close();
-    renderMcp();
-    toast(t("authReady"));
-  }
-
-  async function submitUnlock(event) {
-    event.preventDefault();
-    const form = $("auth-unlock-form");
-    const pw = form.password.value;
-    try {
-      await auth.unlock(pw);
-    } catch (err) {
-      toast(t("authBad"));
-      return;
-    }
-    await persistAuth("unlock", pw);
-    form.reset();
-    $("auth-unlock-dialog").close();
-    renderMcp();
-    toast(t("authUnlocked"));
-  }
-
-  async function submitLock() {
-    auth.lock();
-    await persistAuth("lock", "");
-    if (mcpGate.isEnabled()) {
-      /* consent stays; connection is what lock cuts */
-    }
-    renderMcp();
-    toast(t("authLocked"));
-  }
-
-  async function persistAuth(kind, password) {
-    const token = csrfToken();
-    if (!token || location.protocol === "file:") return;
-    const path =
-      kind === "set" ? "/api/auth/set" : kind === "unlock" ? "/api/auth/unlock" : "/api/auth/lock";
-    const body = kind === "lock" ? {} : { password: password };
-    try {
-      await fetch(path, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token,
-        },
-        body: JSON.stringify(body),
-      });
-    } catch (err) {
-      /* Pages / file — Mac unlock is the agent gate */
-    }
-  }
-
-  async function mintAgent() {
-    if (!auth.isUnlocked() || !mcpGate.isEnabled()) {
-      toast(t("mcpNeedAuth"));
-      return;
-    }
-    const minted = await mcpGate.mintAgentToken();
-    $("agent-token").textContent = minted.token;
-    $("agent-dialog").showModal();
-    await persistAgent("mint", minted.hash);
-    renderMcp();
-  }
-
-  function revokeAgent() {
-    mcpGate.revokeAgentToken();
-    persistAgent("revoke", "");
-    renderMcp();
-    toast(t("agentRevoked"));
-  }
-
-  async function copyAgentToken() {
-    const text = $("agent-token").textContent;
-    if (!text) return;
-    await navigator.clipboard.writeText(text);
-    toast(t("agentCopied"));
-  }
-
-  async function persistAgent(kind, hash) {
-    const token = csrfToken();
-    if (!token || location.protocol === "file:") return;
-    try {
-      await fetch(kind === "mint" ? "/api/auth/agent/mint" : "/api/auth/agent/revoke", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token,
-        },
-        body: JSON.stringify(kind === "mint" ? { hash: hash } : {}),
-      });
-    } catch (err) {
-      /* optional local API */
-    }
-  }
-
-  function toggleMcp() {
-    if (!auth.isUnlocked()) {
-      toast(t("mcpNeedAuth"));
-      if (!auth.hasPassword()) $("auth-set-dialog").showModal();
-      else $("auth-unlock-dialog").showModal();
-      return;
-    }
-    if (mcpGate.isEnabled()) {
-      mcpGate.disable();
-      persistConsent(false, []);
-      renderMcp();
-      return;
-    }
-    openMcpConsent();
   }
 
   function registerShell() {

@@ -17,7 +17,6 @@ def main() -> None:
         (STATIC / "js" / "store.js").read_text(encoding="utf-8"),
         (STATIC / "js" / "incidents.js").read_text(encoding="utf-8"),
         (STATIC / "js" / "auth.js").read_text(encoding="utf-8"),
-        (STATIC / "js" / "mcp.js").read_text(encoding="utf-8"),
         (STATIC / "js" / "card.js").read_text(encoding="utf-8"),
         (STATIC / "js" / "app.js").read_text(encoding="utf-8"),
     ]
@@ -39,7 +38,6 @@ def main() -> None:
   <script src="js/store.js"></script>
   <script src="js/incidents.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/mcp.js"></script>
   <script src="js/card.js"></script>
   <script src="js/app.js"></script>""",
         "<script>\n" + bundle + "\n</script>",

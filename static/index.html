@@ -68,22 +68,6 @@
 
       <p class="holder"><span id="holder-name"></span> · <span data-i18n="youHold">vous détenez ce dossier</span></p>
       <p class="fine" data-i18n="deviceNote">Vit sur cet appareil. Rien n’est envoyé.</p>
-
-      <section class="panel mcp-panel" aria-labelledby="mcp-label">
-        <h2 id="mcp-label" data-i18n="mcpTitle">Agents (MCP)</h2>
-        <p class="fine" id="mcp-state"></p>
-        <p class="warn" data-i18n="mcpRiskLine">Éteint par défaut. Un agent qui y a accès lit et peut changer ce dossier.</p>
-        <div class="hero-actions">
-          <button type="button" class="primary" id="auth-set" data-i18n="authSet">Créer un mot de passe</button>
-          <button type="button" class="ghost hidden" id="auth-unlock" data-i18n="authUnlock">Déverrouiller</button>
-          <button type="button" class="ghost hidden" id="auth-lock" data-i18n="authLock">Verrouiller</button>
-          <button type="button" class="primary hidden" id="mcp-toggle" data-i18n="mcpEnable">Activer…</button>
-          <button type="button" class="ghost hidden" id="mcp-pack" data-i18n="mcpDownload">Télécharger le paquet agent</button>
-          <button type="button" class="ghost hidden" id="mcp-mint" data-i18n="agentMint">Créer un jeton agent</button>
-          <button type="button" class="text-btn hidden" id="mcp-revoke" data-i18n="agentRevoke">Révoquer le jeton</button>
-        </div>
-        <pre class="url hidden" id="mcp-snippet"></pre>
-      </section>
     </main>
   </div>
 
@@ -155,65 +139,6 @@
       <button type="button" class="text-btn" id="inc-back" data-i18n="done">Fermer</button>
     </div>
   </section>
-
-  <dialog id="auth-set-dialog" class="dialog">
-    <form id="auth-set-form" method="dialog">
-      <h2 data-i18n="authSetTitle">Créer un mot de passe</h2>
-      <p class="warn" data-i18n="authSetHelp">Les agents ne se connectent pas tant que ce mot de passe n’est pas créé, puis déverrouillé. Dix caractères minimum.</p>
-      <label><span data-i18n="authPassword">Mot de passe</span>
-        <input name="password" type="password" minlength="10" autocomplete="new-password" required>
-      </label>
-      <label><span data-i18n="authPasswordAgain">Encore une fois</span>
-        <input name="confirm" type="password" minlength="10" autocomplete="new-password" required>
-      </label>
-      <div class="dialog-actions">
-        <button type="button" class="ghost" id="auth-set-cancel" data-i18n="cancel">Annuler</button>
-        <button type="submit" class="primary" data-i18n="authSetSave">Enregistrer</button>
-      </div>
-    </form>
-  </dialog>
-
-  <dialog id="auth-unlock-dialog" class="dialog">
-    <form id="auth-unlock-form" method="dialog">
-      <h2 data-i18n="authUnlockTitle">Déverrouiller</h2>
-      <p class="fine" data-i18n="authUnlockHelp">Ensuite seulement, un agent peut se connecter.</p>
-      <label><span data-i18n="authPassword">Mot de passe</span>
-        <input name="password" type="password" autocomplete="current-password" required>
-      </label>
-      <div class="dialog-actions">
-        <button type="button" class="ghost" id="auth-unlock-cancel" data-i18n="cancel">Annuler</button>
-        <button type="submit" class="primary" data-i18n="authUnlock">Déverrouiller</button>
-      </div>
-    </form>
-  </dialog>
-
-  <dialog id="agent-dialog" class="dialog">
-    <div>
-      <h2 data-i18n="agentMintTitle">Jeton agent</h2>
-      <p class="warn" data-i18n="agentMintHelp">Affiché une seule fois. L’agent doit présenter ce secret (CONFIDENCE_AGENT_TOKEN) pour se connecter. Ce n’est pas votre mot de passe.</p>
-      <p class="url" id="agent-token"></p>
-      <div class="dialog-actions">
-        <button type="button" class="ghost" id="agent-copy" data-i18n="copy">Copier</button>
-        <button type="button" class="primary" id="agent-done" data-i18n="done">Fermer</button>
-      </div>
-    </div>
-  </dialog>
-
-  <dialog id="mcp-dialog" class="dialog">
-    <form id="mcp-form" method="dialog">
-      <h2 data-i18n="mcpConsentTitle">Activer l’accès agent</h2>
-      <p class="warn" data-i18n="mcpConsentLead">Ceci n’est pas anodin. Cochez chaque risque. Rien ne s’allume tant que ce n’est pas fait.</p>
-      <label class="check"><input type="checkbox" name="agents_read"> <span data-i18n="mcpAckRead">Les agents pourront lire mon groupe sanguin, mes allergies, mes médicaments, mes hôpitaux et mes incidents.</span></label>
-      <label class="check"><input type="checkbox" name="agents_write"> <span data-i18n="mcpAckWrite">Les agents pourront modifier ce dossier et déclarer des incidents.</span></label>
-      <label class="check"><input type="checkbox" name="law5"> <span data-i18n="mcpAckLaw">Ce sont des renseignements de santé au Québec (Loi 5, Loi 25). Je reste responsable de qui y touche.</span></label>
-      <label class="check"><input type="checkbox" name="leaves_device"> <span data-i18n="mcpAckLeave">Une conversation avec un agent peut envoyer ces faits hors de cet appareil, chez le fournisseur du modèle.</span></label>
-      <label class="check"><input type="checkbox" name="can_revoke"> <span data-i18n="mcpAckRevoke">Je peux éteindre l’accès. Une session déjà ouverte peut encore avoir le contexte.</span></label>
-      <div class="dialog-actions">
-        <button type="button" class="ghost" id="mcp-cancel" data-i18n="cancel">Annuler</button>
-        <button type="submit" class="primary" id="mcp-confirm" disabled data-i18n="mcpAccept">J’accepte et j’active</button>
-      </div>
-    </form>
-  </dialog>
 
   <dialog id="declare-dialog" class="dialog">
     <form id="declare-form" method="dialog">
@@ -312,7 +237,6 @@
   <script src="js/store.js"></script>
   <script src="js/incidents.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/mcp.js"></script>
   <script src="js/card.js"></script>
   <script src="js/app.js"></script>
 </body>
