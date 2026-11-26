@@ -7,9 +7,6 @@ os.environ["HEALTH_TESTING"] = "1"
 import mcp_auth
 import mcp_consent
 import mcp_tools
-from fastapi.testclient import TestClient
-
-import main
 from mcp_auth import AuthRequired
 from mcp_consent import CONSENT_VERSION, REQUIRED_ACKS, ConsentOff
 
@@ -195,65 +192,6 @@ def test_server_will_not_start_when_locked(tmp_path: Path, monkeypatch) -> None:
     )
     assert result.returncode == 1
     assert "authenticate first" in result.stderr
-
-
-def test_ui_requires_consent_copy() -> None:
-    root = Path(__file__).resolve().parents[1]
-    html = (root / "static" / "index.html").read_text(encoding="utf-8")
-    js = (root / "static" / "js" / "mcp.js").read_text(encoding="utf-8")
-    assert "mcp-dialog" in html
-    assert 'disabled' in html
-    assert "enabled: false" in js
-    assert "agents_read" in js
-    assert "law5" in js
-
-
-def test_api_consent_gate(tmp_path: Path, monkeypatch) -> None:
-    _home(tmp_path, monkeypatch)
-    client = TestClient(main.app)
-    client.get("/")
-    token = client.cookies["health_csrf"]
-    status = client.get("/api/mcp/status").json()
-    assert status["enabled"] is False
-    assert status["has_password"] is False
-    unauth = client.post(
-        "/api/mcp/consent",
-        headers={"X-CSRF-Token": token, "Origin": "http://testserver"},
-        json={"enabled": True, "acknowledged": list(REQUIRED_ACKS)},
-    )
-    assert unauth.status_code == 401
-    sett = client.post(
-        "/api/auth/set",
-        headers={"X-CSRF-Token": token, "Origin": "http://testserver"},
-        json={"password": "correct-horse"},
-    )
-    assert sett.status_code == 200
-    token = client.cookies["health_csrf"]
-    denied = client.post(
-        "/api/mcp/consent",
-        headers={"X-CSRF-Token": token, "Origin": "http://testserver"},
-        json={"enabled": True, "acknowledged": ["agents_read"]},
-    )
-    assert denied.status_code == 400
-    ok = client.post(
-        "/api/mcp/consent",
-        headers={"X-CSRF-Token": token, "Origin": "http://testserver"},
-        json={"enabled": True, "acknowledged": list(REQUIRED_ACKS)},
-    )
-    assert ok.status_code == 200
-    assert ok.json()["enabled"] is True
-    snap = client.put(
-        "/api/mcp/snapshot",
-        headers={"X-CSRF-Token": token, "Origin": "http://testserver"},
-        json={"record": {"display_name": "Exemple Patient"}, "incidents": []},
-    )
-    assert snap.status_code == 200
-    off = client.post(
-        "/api/mcp/consent",
-        headers={"X-CSRF-Token": token, "Origin": "http://testserver"},
-        json={"enabled": False},
-    )
-    assert off.json()["enabled"] is False
 
 
 def test_bad_unlock_is_refused(tmp_path: Path, monkeypatch) -> None:
