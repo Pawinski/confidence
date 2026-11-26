@@ -324,22 +324,6 @@ input, select, textarea {
 
 .inc-compose { margin-top: 1rem; }
 
-.mcp-panel { margin-top: 1rem; }
-
-.check {
-  display: flex;
-  gap: 0.6rem;
-  align-items: flex-start;
-  margin: 0.65rem 0;
-}
-
-.check input {
-  width: auto;
-  margin-top: 0.25rem;
-}
-
-.check span { color: var(--ink); }
-
 .hold {
   min-height: 100vh;
   padding: 1.25rem 1.25rem 6rem;
@@ -445,22 +429,6 @@ input, select, textarea {
 
       <p class="holder"><span id="holder-name"></span> · <span data-i18n="youHold">vous détenez ce dossier</span></p>
       <p class="fine" data-i18n="deviceNote">Vit sur cet appareil. Rien n’est envoyé.</p>
-
-      <section class="panel mcp-panel" aria-labelledby="mcp-label">
-        <h2 id="mcp-label" data-i18n="mcpTitle">Agents (MCP)</h2>
-        <p class="fine" id="mcp-state"></p>
-        <p class="warn" data-i18n="mcpRiskLine">Éteint par défaut. Un agent qui y a accès lit et peut changer ce dossier.</p>
-        <div class="hero-actions">
-          <button type="button" class="primary" id="auth-set" data-i18n="authSet">Créer un mot de passe</button>
-          <button type="button" class="ghost hidden" id="auth-unlock" data-i18n="authUnlock">Déverrouiller</button>
-          <button type="button" class="ghost hidden" id="auth-lock" data-i18n="authLock">Verrouiller</button>
-          <button type="button" class="primary hidden" id="mcp-toggle" data-i18n="mcpEnable">Activer…</button>
-          <button type="button" class="ghost hidden" id="mcp-pack" data-i18n="mcpDownload">Télécharger le paquet agent</button>
-          <button type="button" class="ghost hidden" id="mcp-mint" data-i18n="agentMint">Créer un jeton agent</button>
-          <button type="button" class="text-btn hidden" id="mcp-revoke" data-i18n="agentRevoke">Révoquer le jeton</button>
-        </div>
-        <pre class="url hidden" id="mcp-snippet"></pre>
-      </section>
     </main>
   </div>
 
@@ -532,65 +500,6 @@ input, select, textarea {
       <button type="button" class="text-btn" id="inc-back" data-i18n="done">Fermer</button>
     </div>
   </section>
-
-  <dialog id="auth-set-dialog" class="dialog">
-    <form id="auth-set-form" method="dialog">
-      <h2 data-i18n="authSetTitle">Créer un mot de passe</h2>
-      <p class="warn" data-i18n="authSetHelp">Les agents ne se connectent pas tant que ce mot de passe n’est pas créé, puis déverrouillé. Dix caractères minimum.</p>
-      <label><span data-i18n="authPassword">Mot de passe</span>
-        <input name="password" type="password" minlength="10" autocomplete="new-password" required>
-      </label>
-      <label><span data-i18n="authPasswordAgain">Encore une fois</span>
-        <input name="confirm" type="password" minlength="10" autocomplete="new-password" required>
-      </label>
-      <div class="dialog-actions">
-        <button type="button" class="ghost" id="auth-set-cancel" data-i18n="cancel">Annuler</button>
-        <button type="submit" class="primary" data-i18n="authSetSave">Enregistrer</button>
-      </div>
-    </form>
-  </dialog>
-
-  <dialog id="auth-unlock-dialog" class="dialog">
-    <form id="auth-unlock-form" method="dialog">
-      <h2 data-i18n="authUnlockTitle">Déverrouiller</h2>
-      <p class="fine" data-i18n="authUnlockHelp">Ensuite seulement, un agent peut se connecter.</p>
-      <label><span data-i18n="authPassword">Mot de passe</span>
-        <input name="password" type="password" autocomplete="current-password" required>
-      </label>
-      <div class="dialog-actions">
-        <button type="button" class="ghost" id="auth-unlock-cancel" data-i18n="cancel">Annuler</button>
-        <button type="submit" class="primary" data-i18n="authUnlock">Déverrouiller</button>
-      </div>
-    </form>
-  </dialog>
-
-  <dialog id="agent-dialog" class="dialog">
-    <div>
-      <h2 data-i18n="agentMintTitle">Jeton agent</h2>
-      <p class="warn" data-i18n="agentMintHelp">Affiché une seule fois. L’agent doit présenter ce secret (CONFIDENCE_AGENT_TOKEN) pour se connecter. Ce n’est pas votre mot de passe.</p>
-      <p class="url" id="agent-token"></p>
-      <div class="dialog-actions">
-        <button type="button" class="ghost" id="agent-copy" data-i18n="copy">Copier</button>
-        <button type="button" class="primary" id="agent-done" data-i18n="done">Fermer</button>
-      </div>
-    </div>
-  </dialog>
-
-  <dialog id="mcp-dialog" class="dialog">
-    <form id="mcp-form" method="dialog">
-      <h2 data-i18n="mcpConsentTitle">Activer l’accès agent</h2>
-      <p class="warn" data-i18n="mcpConsentLead">Ceci n’est pas anodin. Cochez chaque risque. Rien ne s’allume tant que ce n’est pas fait.</p>
-      <label class="check"><input type="checkbox" name="agents_read"> <span data-i18n="mcpAckRead">Les agents pourront lire mon groupe sanguin, mes allergies, mes médicaments, mes hôpitaux et mes incidents.</span></label>
-      <label class="check"><input type="checkbox" name="agents_write"> <span data-i18n="mcpAckWrite">Les agents pourront modifier ce dossier et déclarer des incidents.</span></label>
-      <label class="check"><input type="checkbox" name="law5"> <span data-i18n="mcpAckLaw">Ce sont des renseignements de santé au Québec (Loi 5, Loi 25). Je reste responsable de qui y touche.</span></label>
-      <label class="check"><input type="checkbox" name="leaves_device"> <span data-i18n="mcpAckLeave">Une conversation avec un agent peut envoyer ces faits hors de cet appareil, chez le fournisseur du modèle.</span></label>
-      <label class="check"><input type="checkbox" name="can_revoke"> <span data-i18n="mcpAckRevoke">Je peux éteindre l’accès. Une session déjà ouverte peut encore avoir le contexte.</span></label>
-      <div class="dialog-actions">
-        <button type="button" class="ghost" id="mcp-cancel" data-i18n="cancel">Annuler</button>
-        <button type="submit" class="primary" id="mcp-confirm" disabled data-i18n="mcpAccept">J’accepte et j’active</button>
-      </div>
-    </form>
-  </dialog>
 
   <dialog id="declare-dialog" class="dialog">
     <form id="declare-form" method="dialog">
@@ -776,47 +685,6 @@ window.HEALTH_COPY = {
     notifyOpened: "Messages ouvert — envoyez pour prévenir.",
     notifyCopied: "Texte copié. Collez-le dans un message.",
     notifyBody: "Confidence {sev} — {title}. {name}. Commandant : {commander}.",
-    mcpTitle: "Agents (MCP)",
-    mcpEnable: "Activer…",
-    mcpDisable: "Éteindre",
-    mcpDownload: "Télécharger le paquet agent",
-    mcpConsentTitle: "Activer l’accès agent",
-    mcpConsentLead: "Ceci n’est pas anodin. Cochez chaque risque. Rien ne s’allume tant que ce n’est pas fait.",
-    mcpAckRead: "Les agents pourront lire mon groupe sanguin, mes allergies, mes médicaments, mes hôpitaux et mes incidents.",
-    mcpAckWrite: "Les agents pourront modifier ce dossier et déclarer des incidents.",
-    mcpAckLaw: "Ce sont des renseignements de santé au Québec (Loi 5, Loi 25). Je reste responsable de qui y touche.",
-    mcpAckLeave: "Une conversation avec un agent peut envoyer ces faits hors de cet appareil, chez le fournisseur du modèle.",
-    mcpAckRevoke: "Je peux éteindre l’accès. Une session déjà ouverte peut encore avoir le contexte.",
-    mcpAccept: "J’accepte et j’active",
-    mcpRiskLine: "Éteint par défaut. Un agent qui y a accès lit et peut changer ce dossier.",
-    mcpOff: "MCP éteint. Les agents n’ont pas accès.",
-    mcpOn: "MCP allumé. Les agents peuvent lire et écrire le paquet installé.",
-    mcpPackSaved: "Paquet agent enregistré. Installez-le avant d’ouvrir un agent.",
-    mcpNeedChecks: "Cochez chaque risque.",
-    mcpInstallHelp: "Ensuite, sur ce Mac : installer le paquet, unlock, puis export CONFIDENCE_AGENT_TOKEN=…",
-    authSet: "Créer un mot de passe",
-    authSetTitle: "Créer un mot de passe",
-    authSetHelp: "Les agents ne se connectent pas tant que ce mot de passe n’est pas créé, puis déverrouillé. Dix caractères minimum.",
-    authSetSave: "Enregistrer",
-    authUnlock: "Déverrouiller",
-    authUnlockTitle: "Déverrouiller",
-    authUnlockHelp: "Ensuite seulement, un agent peut se connecter.",
-    authLock: "Verrouiller",
-    authPassword: "Mot de passe",
-    authPasswordAgain: "Encore une fois",
-    authNeedMatch: "Les deux mots de passe doivent être identiques.",
-    authTooShort: "Dix caractères minimum.",
-    authBad: "Mot de passe refusé.",
-    authReady: "Mot de passe créé. Déverrouillé pour cette session.",
-    authUnlocked: "Déverrouillé.",
-    authLocked: "Verrouillé. Les agents ne peuvent plus se connecter.",
-    mcpNeedAuth: "Créez un mot de passe, puis déverrouillez, avant d’activer l’accès agent.",
-    agentMint: "Créer un jeton agent",
-    agentMintTitle: "Jeton agent",
-    agentMintHelp: "Affiché une seule fois. L’agent doit présenter ce secret (CONFIDENCE_AGENT_TOKEN) pour se connecter. Ce n’est pas votre mot de passe.",
-    agentRevoke: "Révoquer le jeton",
-    agentCopied: "Jeton copié",
-    agentRevoked: "Jeton agent révoqué. Plus aucun agent ne peut se connecter.",
     copy: "Copier",
   },
   en: {
@@ -908,47 +776,6 @@ window.HEALTH_COPY = {
     notifyOpened: "Messages opened — send it to notify.",
     notifyCopied: "Text copied. Paste it into a message.",
     notifyBody: "Confidence {sev} — {title}. {name}. Commander: {commander}.",
-    mcpTitle: "Agents (MCP)",
-    mcpEnable: "Turn on…",
-    mcpDisable: "Turn off",
-    mcpDownload: "Download agent pack",
-    mcpConsentTitle: "Turn on agent access",
-    mcpConsentLead: "This is not casual. Check every risk. Nothing turns on until you do.",
-    mcpAckRead: "Agents will be able to read my blood type, allergies, medications, hospitals, and incidents.",
-    mcpAckWrite: "Agents will be able to change this record and declare incidents.",
-    mcpAckLaw: "This is Quebec health information (Law 5, Law 25). I stay responsible for who touches it.",
-    mcpAckLeave: "A chat with an agent may send these facts off this device, to the model provider.",
-    mcpAckRevoke: "I can turn this off. A session already open may still have the context.",
-    mcpAccept: "I accept and turn it on",
-    mcpRiskLine: "Off by default. An agent with access can read and change this record.",
-    mcpOff: "MCP off. Agents have no access.",
-    mcpOn: "MCP on. Agents can read and write the installed pack.",
-    mcpPackSaved: "Agent pack saved. Install it before opening an agent.",
-    mcpNeedChecks: "Check every risk.",
-    mcpInstallHelp: "Then on this Mac: install the pack, unlock, then export CONFIDENCE_AGENT_TOKEN=…",
-    authSet: "Create a password",
-    authSetTitle: "Create a password",
-    authSetHelp: "Agents cannot connect until this password exists and you unlock. Ten characters minimum.",
-    authSetSave: "Save",
-    authUnlock: "Unlock",
-    authUnlockTitle: "Unlock",
-    authUnlockHelp: "Only then can an agent connect.",
-    authLock: "Lock",
-    authPassword: "Password",
-    authPasswordAgain: "Again",
-    authNeedMatch: "Both passwords must match.",
-    authTooShort: "Ten characters minimum.",
-    authBad: "Password refused.",
-    authReady: "Password saved. Unlocked for this session.",
-    authUnlocked: "Unlocked.",
-    authLocked: "Locked. Agents cannot connect.",
-    mcpNeedAuth: "Set a password and unlock before turning agent access on.",
-    agentMint: "Mint an agent token",
-    agentMintTitle: "Agent token",
-    agentMintHelp: "Shown once. The agent must present this secret (CONFIDENCE_AGENT_TOKEN) to connect. This is not your password.",
-    agentRevoke: "Revoke token",
-    agentCopied: "Token copied",
-    agentRevoked: "Agent token revoked. No agent can connect.",
     copy: "Copy",
   },
 };
@@ -1300,130 +1127,6 @@ window.ConfidenceAuth = (() => {
   };
 })();
 
-window.ConfidenceMcp = (() => {
-  const KEY = "confidence.mcp.v1";
-  const VERSION = "2026-08-18";
-  const REQUIRED = [
-    "agents_read",
-    "agents_write",
-    "law5",
-    "leaves_device",
-    "can_revoke",
-  ];
-
-  function empty() {
-    return {
-      version: VERSION,
-      enabled: false,
-      acknowledged: [],
-      consented_at: null,
-    };
-  }
-
-  function load() {
-    try {
-      const raw = localStorage.getItem(KEY);
-      const row = raw ? Object.assign(empty(), JSON.parse(raw)) : empty();
-      if (row.version !== VERSION) return empty();
-      return row;
-    } catch (err) {
-      return empty();
-    }
-  }
-
-  function isEnabled() {
-    const row = load();
-    if (!row.enabled) return false;
-    return REQUIRED.every((ack) => row.acknowledged.indexOf(ack) !== -1);
-  }
-
-  function enable(acknowledged) {
-    const acks = REQUIRED.filter((ack) => acknowledged.indexOf(ack) !== -1);
-    if (acks.length !== REQUIRED.length) {
-      throw new Error("incomplete consent");
-    }
-    const row = {
-      version: VERSION,
-      enabled: true,
-      acknowledged: REQUIRED.slice(),
-      consented_at: new Date().toISOString(),
-    };
-    localStorage.setItem(KEY, JSON.stringify(row));
-    return row;
-  }
-
-  function disable() {
-    const row = empty();
-    row.disabled_at = new Date().toISOString();
-    localStorage.setItem(KEY, JSON.stringify(row));
-    return row;
-  }
-
-  const AGENT_KEY = "confidence.agent.v1";
-
-  function agentMeta() {
-    try {
-      const raw = localStorage.getItem(AGENT_KEY);
-      return raw ? JSON.parse(raw) : { hash: "" };
-    } catch (err) {
-      return { hash: "" };
-    }
-  }
-
-  function hasAgentToken() {
-    return Boolean(agentMeta().hash);
-  }
-
-  function revokeAgentToken() {
-    localStorage.removeItem(AGENT_KEY);
-  }
-
-  async function mintAgentToken() {
-    const bytes = crypto.getRandomValues(new Uint8Array(32));
-    const token = btoa(String.fromCharCode.apply(null, Array.from(bytes)))
-      .replace(/\+/g, "-")
-      .replace(/\//g, "_")
-      .replace(/=+$/g, "");
-    const digest = await crypto.subtle.digest(
-      "SHA-256",
-      new TextEncoder().encode(token)
-    );
-    const hash = Array.from(new Uint8Array(digest))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-    localStorage.setItem(
-      AGENT_KEY,
-      JSON.stringify({ hash: hash, created_at: new Date().toISOString() })
-    );
-    return { token: token, hash: hash };
-  }
-
-  function pack(record, incidents, consent, auth) {
-    return {
-      consent: consent || load(),
-      auth: auth || null,
-      agent: hasAgentToken() ? { hash: agentMeta().hash } : null,
-      record: record || {},
-      incidents: incidents || [],
-    };
-  }
-
-  return {
-    KEY,
-    VERSION,
-    REQUIRED,
-    load,
-    isEnabled,
-    enable,
-    disable,
-    pack,
-    hasAgentToken,
-    mintAgentToken,
-    revokeAgentToken,
-    agentMeta,
-  };
-})();
-
 window.ConfidenceCard = (() => {
   function escapeHtml(value) {
     return String(value == null ? "" : value)
@@ -1589,8 +1292,6 @@ window.ConfidenceCard = (() => {
   const store = window.ConfidenceStore;
   const card = window.ConfidenceCard;
   const incidents = window.ConfidenceIncidents;
-  const mcpGate = window.ConfidenceMcp;
-  const auth = window.ConfidenceAuth;
   const state = {
     lang: localStorage.getItem("health.lang") || "fr",
     record: store.load(),
@@ -1618,7 +1319,6 @@ window.ConfidenceCard = (() => {
     $("lang-toggle").textContent = state.lang === "fr" ? "EN" : "FR";
     renderIncidentList();
     if (state.incidentId) renderIncident();
-    renderMcp();
   }
 
   function toast(msg) {
@@ -1919,7 +1619,6 @@ window.ConfidenceCard = (() => {
     renderRecord();
     $("edit-dialog").close();
     toast(t("saved"));
-    syncMcpSnapshot();
   }
 
   function openHold() {
@@ -2026,22 +1725,6 @@ window.ConfidenceCard = (() => {
       if (!$("hold-card").classList.contains("hidden")) renderHold();
       if (state.incidentId) renderIncident();
     });
-    $("auth-set").addEventListener("click", () => $("auth-set-dialog").showModal());
-    $("auth-set-cancel").addEventListener("click", () => $("auth-set-dialog").close());
-    $("auth-set-form").addEventListener("submit", submitSetPassword);
-    $("auth-unlock").addEventListener("click", () => $("auth-unlock-dialog").showModal());
-    $("auth-unlock-cancel").addEventListener("click", () => $("auth-unlock-dialog").close());
-    $("auth-unlock-form").addEventListener("submit", submitUnlock);
-    $("auth-lock").addEventListener("click", submitLock);
-    $("mcp-toggle").addEventListener("click", toggleMcp);
-    $("mcp-cancel").addEventListener("click", () => $("mcp-dialog").close());
-    $("mcp-form").addEventListener("submit", acceptMcp);
-    $("mcp-form").addEventListener("change", refreshMcpConfirm);
-    $("mcp-pack").addEventListener("click", downloadPack);
-    $("mcp-mint").addEventListener("click", mintAgent);
-    $("mcp-revoke").addEventListener("click", revokeAgent);
-    $("agent-done").addEventListener("click", () => $("agent-dialog").close());
-    $("agent-copy").addEventListener("click", copyAgentToken);
     $("declare-btn").addEventListener("click", openDeclare);
     $("declare-cancel").addEventListener("click", () => $("declare-dialog").close());
     $("declare-form").addEventListener("submit", declareIncident);
@@ -2074,267 +1757,6 @@ window.ConfidenceCard = (() => {
         toast(how === "shared" ? t("shared") : t("cardSaved"));
       }).catch((err) => toast(err.message));
     });
-  }
-
-  function csrfToken() {
-    const match = document.cookie.match(/(?:^|; )health_csrf=([^;]+)/);
-    return match ? decodeURIComponent(match[1]) : "";
-  }
-
-  function mcpSnippet() {
-    return [
-      "[mcp_servers.confidence]",
-      'command = ".venv/bin/python"',
-      'args = ["mcp_server.py"]',
-      "",
-      "[mcp_servers.confidence.env]",
-      'CONFIDENCE_AGENT_TOKEN = "${CONFIDENCE_AGENT_TOKEN}"',
-      "",
-      t("mcpInstallHelp"),
-    ].join("\n");
-  }
-
-  function renderMcp() {
-    const on = mcpGate.isEnabled();
-    const hasPw = auth.hasPassword();
-    const unlocked = auth.isUnlocked();
-    let stateText = t("mcpOff");
-    if (!hasPw) stateText = t("mcpNeedAuth");
-    else if (!unlocked) stateText = t("authLocked");
-    else if (on) stateText = t("mcpOn");
-    $("mcp-state").textContent = stateText;
-    $("auth-set").classList.toggle("hidden", hasPw);
-    $("auth-unlock").classList.toggle("hidden", !hasPw || unlocked);
-    $("auth-lock").classList.toggle("hidden", !unlocked);
-    $("mcp-toggle").classList.toggle("hidden", !unlocked);
-    $("mcp-toggle").textContent = on ? t("mcpDisable") : t("mcpEnable");
-    $("mcp-toggle").classList.toggle("primary", !on);
-    $("mcp-toggle").classList.toggle("ghost", on);
-    $("mcp-pack").classList.toggle("hidden", !on || !unlocked);
-    $("mcp-mint").classList.toggle("hidden", !on || !unlocked);
-    $("mcp-revoke").classList.toggle("hidden", !on || !unlocked || !mcpGate.hasAgentToken());
-    $("mcp-snippet").classList.toggle("hidden", !on || !unlocked);
-    $("mcp-snippet").textContent = on && unlocked ? mcpSnippet() : "";
-  }
-
-  function mcpAcksFromForm() {
-    const form = $("mcp-form");
-    return mcpGate.REQUIRED.filter((name) => form[name] && form[name].checked);
-  }
-
-  function refreshMcpConfirm() {
-    $("mcp-confirm").disabled = mcpAcksFromForm().length !== mcpGate.REQUIRED.length;
-  }
-
-  function downloadPack() {
-    const payload = mcpGate.pack(
-      state.record,
-      incidents.loadAll(),
-      mcpGate.load(),
-      auth.hasPassword() ? auth.verifier() : null
-    );
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "confidence-agent-pack.json";
-    a.click();
-    URL.revokeObjectURL(url);
-    toast(t("mcpPackSaved"));
-  }
-
-  async function syncMcpSnapshot() {
-    if (!mcpGate.isEnabled()) return;
-    const token = csrfToken();
-    if (!token || location.protocol === "file:") return;
-    try {
-      await fetch("/api/mcp/snapshot", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token,
-        },
-        body: JSON.stringify({
-          record: state.record,
-          incidents: incidents.loadAll(),
-        }),
-      });
-    } catch (err) {
-      /* Pages / file — pack download is the path */
-    }
-  }
-
-  async function persistConsent(enabled, acknowledged) {
-    const token = csrfToken();
-    if (!token || location.protocol === "file:") return;
-    try {
-      await fetch("/api/mcp/consent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token,
-        },
-        body: JSON.stringify({ enabled: enabled, acknowledged: acknowledged || [] }),
-      });
-    } catch (err) {
-      /* local API optional */
-    }
-  }
-
-  function openMcpConsent() {
-    const form = $("mcp-form");
-    mcpGate.REQUIRED.forEach((name) => {
-      if (form[name]) form[name].checked = false;
-    });
-    refreshMcpConfirm();
-    $("mcp-dialog").showModal();
-  }
-
-  function acceptMcp(event) {
-    event.preventDefault();
-    const acks = mcpAcksFromForm();
-    if (acks.length !== mcpGate.REQUIRED.length) {
-      toast(t("mcpNeedChecks"));
-      return;
-    }
-    mcpGate.enable(acks);
-    $("mcp-dialog").close();
-    renderMcp();
-    persistConsent(true, acks);
-    syncMcpSnapshot();
-    downloadPack();
-  }
-
-  async function submitSetPassword(event) {
-    event.preventDefault();
-    const form = $("auth-set-form");
-    const pw = form.password.value;
-    const again = form.confirm.value;
-    if (pw !== again) {
-      toast(t("authNeedMatch"));
-      return;
-    }
-    if (pw.length < auth.MIN) {
-      toast(t("authTooShort"));
-      return;
-    }
-    try {
-      await auth.setPassword(pw);
-    } catch (err) {
-      toast(t("authTooShort"));
-      return;
-    }
-    await persistAuth("set", pw);
-    form.reset();
-    $("auth-set-dialog").close();
-    renderMcp();
-    toast(t("authReady"));
-  }
-
-  async function submitUnlock(event) {
-    event.preventDefault();
-    const form = $("auth-unlock-form");
-    const pw = form.password.value;
-    try {
-      await auth.unlock(pw);
-    } catch (err) {
-      toast(t("authBad"));
-      return;
-    }
-    await persistAuth("unlock", pw);
-    form.reset();
-    $("auth-unlock-dialog").close();
-    renderMcp();
-    toast(t("authUnlocked"));
-  }
-
-  async function submitLock() {
-    auth.lock();
-    await persistAuth("lock", "");
-    if (mcpGate.isEnabled()) {
-      /* consent stays; connection is what lock cuts */
-    }
-    renderMcp();
-    toast(t("authLocked"));
-  }
-
-  async function persistAuth(kind, password) {
-    const token = csrfToken();
-    if (!token || location.protocol === "file:") return;
-    const path =
-      kind === "set" ? "/api/auth/set" : kind === "unlock" ? "/api/auth/unlock" : "/api/auth/lock";
-    const body = kind === "lock" ? {} : { password: password };
-    try {
-      await fetch(path, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token,
-        },
-        body: JSON.stringify(body),
-      });
-    } catch (err) {
-      /* Pages / file — Mac unlock is the agent gate */
-    }
-  }
-
-  async function mintAgent() {
-    if (!auth.isUnlocked() || !mcpGate.isEnabled()) {
-      toast(t("mcpNeedAuth"));
-      return;
-    }
-    const minted = await mcpGate.mintAgentToken();
-    $("agent-token").textContent = minted.token;
-    $("agent-dialog").showModal();
-    await persistAgent("mint", minted.hash);
-    renderMcp();
-  }
-
-  function revokeAgent() {
-    mcpGate.revokeAgentToken();
-    persistAgent("revoke", "");
-    renderMcp();
-    toast(t("agentRevoked"));
-  }
-
-  async function copyAgentToken() {
-    const text = $("agent-token").textContent;
-    if (!text) return;
-    await navigator.clipboard.writeText(text);
-    toast(t("agentCopied"));
-  }
-
-  async function persistAgent(kind, hash) {
-    const token = csrfToken();
-    if (!token || location.protocol === "file:") return;
-    try {
-      await fetch(kind === "mint" ? "/api/auth/agent/mint" : "/api/auth/agent/revoke", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token,
-        },
-        body: JSON.stringify(kind === "mint" ? { hash: hash } : {}),
-      });
-    } catch (err) {
-      /* optional local API */
-    }
-  }
-
-  function toggleMcp() {
-    if (!auth.isUnlocked()) {
-      toast(t("mcpNeedAuth"));
-      if (!auth.hasPassword()) $("auth-set-dialog").showModal();
-      else $("auth-unlock-dialog").showModal();
-      return;
-    }
-    if (mcpGate.isEnabled()) {
-      mcpGate.disable();
-      persistConsent(false, []);
-      renderMcp();
-      return;
-    }
-    openMcpConsent();
   }
 
   function registerShell() {

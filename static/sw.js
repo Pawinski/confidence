@@ -1,5 +1,5 @@
 /* App shell only. Patient facts stay in localStorage, never in this cache. */
-const CACHE = "confidence-shell-v2";
+const CACHE = "confidence-shell-v3";
 const SHELL = [
   "./",
   "./index.html",
@@ -8,7 +8,6 @@ const SHELL = [
   "./js/store.js",
   "./js/incidents.js",
   "./js/auth.js",
-  "./js/mcp.js",
   "./js/card.js",
   "./js/app.js",
   "./manifest.json",
